@@ -1,0 +1,92 @@
+
+.MainScrollContainer{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.mainScrollCard{
+    flex: 0 0 auto;
+
+width: 400px;
+height: 200px;
+background-color: aquamarine;
+
+}
+
+ .scrollingwrapper {
+ 
+  display: flex;
+  flex-wrap: nowrap;
+  /* overflow-x: auto; */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none; 
+  -webkit-overflow-scrolling: touch; 
+   overflow-x: scroll;
+  overflow-y: hidden;
+     background-color: aqua;
+   
+
+   
+  } 
+  .scrollingwrapper &::-webkit-scrollbar {
+     -webkit-overflow-scrolling: touch;
+    display: none;} 
+
+  .card{
+    flex: 0 0 auto;
+  display: flex;
+   flex-direction: row; 
+  background-color:rgb(211, 211, 211);
+  border-radius: 8px;
+  width: 450px;
+  height: 200px;
+  border-radius: 8px;
+margin: 0 10px 0 10px;
+font-size: 15px;
+
+
+  }
+
+  .cardImage{
+width: 45%;
+
+  }
+
+  .cardContent{
+    display: flex;
+    flex-direction: column;
+   width: 55%;
+   
+   justify-content: center;
+   word-wrap: break-word;
+   align-items: center;
+  }
+
+  .cardImage img{
+width: 100%;
+height: 100%;
+border-radius: 8px 0 0 8px;
+
+  }
+
+  .enterButton{
+    border-radius: 15px;
+    color: #fff;
+    background-color: aquamarine;
+    width: 120px;
+    margin-top: 0;
+
+  }
+
+  .cardDescription{
+
+word-wrap: break-word;
+    width: 100%;
+    word-wrap: break-word;
+    justify-content: center;
+    word-wrap: break-word;
+    margin: 0;
+    padding: 0;
+     background-color: #fff;
+  }

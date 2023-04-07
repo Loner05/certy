@@ -1,0 +1,67 @@
+
+
+.bannerBox{
+display: flex;
+flex-direction: column;
+align-items: center;
+align-self: center;
+justify-self: center;
+justify-content: center;
+width: 70%;
+}
+
+.bannerContainer{
+display: flex;
+flex-direction: row;
+background-color: ;
+align-items: center;
+width: 100%;
+background-color: #7dcfb6;
+justify-items: center;
+justify-content: center;
+border: 3px solid #f79256;
+border-radius: 15px ;
+color: white;
+align-self: center;
+justify-self: center;
+justify-content: center;
+align-content: center;
+justify-items: center;
+align-items: center;
+
+
+}
+.bannerContainer h3{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ justify-items: center;
+ 
+    font-size: 40px;
+   
+    align-self: center;
+}
+
+.textPercent{
+font-size: 100px;
+
+
+}
+
+.buyButton{
+width: 300px;
+height: 50px;
+color: white;
+background-color:#f79256;
+font-weight: 600;
+font-size: 20px;
+
+}
+
+.superContainer{
+display: flex;
+justify-content: center;
+width: 100%;
+margin-top: 8%;
+
+}

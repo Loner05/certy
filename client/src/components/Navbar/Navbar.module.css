@@ -1,0 +1,57 @@
+
+
+
+.navbarContainer{
+position: absolute;
+top:0;
+
+display: flex;
+flex-direction: row;
+width: 98%;
+left:0;
+margin: 1%;
+height: 60px;
+background-color: #F79256;
+border-radius: 15px;
+color: white;
+}
+.navbarItems {
+    display: flex;
+    width: 100%;
+    justify-content: right;
+    margin-right: 3%;
+    font-weight: 700;
+    
+}
+
+.navbarItems ul{
+display: flex;
+flex-direction: row;
+color: white;
+align-items: center;
+
+}
+
+.navbarItems ul li{
+padding: 0 15px 0px 15px;
+list-style: none;
+
+}
+
+.navbarItems ul li a{
+   color: white
+    
+    }
+
+.navLogo{
+font-size: 25px;
+font-weight: 700;
+display: flex;
+align-self: center;
+margin-left: 3%;
+}
+
+.accountLogo{
+font-size: 20px;
+
+}
