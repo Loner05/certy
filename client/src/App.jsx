@@ -4,6 +4,9 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Main from "./components/Main/Main"
 import { Route, Routes } from 'react-router';
+import Login from "./components/Login/Login";
+import Coursetest from "./components/Coursetest/Coursetest"
+import Userhome from "./components/Userhome/Userhome"
 function App() {
   const [count, setCount] = useState(0)
 
@@ -11,7 +14,9 @@ function App() {
     <div className="App">
       <Routes>
         <Route exact path={"/"} element={<Main/>}/>
-
+        <Route exact path={"/login"} element={<Login/>}/>
+        <Route exact path={"/user"} element={<Userhome/>}/>
+        <Route exact path={"/test"} element={<Coursetest/>}/>
       </Routes>
       {/* <div>
         <a href="https://vitejs.dev" target="_blank">
