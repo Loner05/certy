@@ -1,10 +1,12 @@
 
-import { USER_LOGIN } from "../actions"
+import { TEST_QUESTIONS, USER_LOGIN } from "../actions"
 
 
 
 const initialState = {
-userLogin: "", 
+userLogin: "",
+testQuestions: [],
+
 }
 
 
@@ -22,6 +24,13 @@ userLogin: action.payload
 
 }
 
+}
+
+case TEST_QUESTIONS:{
+return{
+    ...state,
+testQuestions: action.payload
+}    
 }
 
 

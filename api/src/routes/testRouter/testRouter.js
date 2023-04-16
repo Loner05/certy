@@ -62,14 +62,21 @@ res.status(200).send(`pregunta ${question} creada con exito`)
 })
 
 router.get('/question',async(req,res)=>{
-const{TestId} = req.body
-try{
-  let testQuestions = await Question.findAll({
-   where: {TestId: TestId }
+const{testid, page=0,size=1} = req.query
+console.log(typeof(testid))
+let options = {
+  where: {TestId: testid},
 
-  })
- 
-  res.status(200).json(testQuestions)
+limit: +size,
+offset:(+page) + (+size)
+  
+}
+try{
+  let {count,rows} = await Question.findAndCountAll(options)
+
+
+  
+  res.status(200).json({total: count,categories: rows})
 }catch(error){
     res.status(404).send(error.message)
 }
