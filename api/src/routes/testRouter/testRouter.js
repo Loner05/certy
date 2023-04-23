@@ -62,11 +62,12 @@ res.status(200).send(`pregunta ${question} creada con exito`)
 })
 
 router.get('/question',async(req,res)=>{
-const{testid, page=0,size=1} = req.query
+const{testid, page,size=1} = req.query
+console.log(`db ${page}`)
 console.log(typeof(testid))
 let options = {
   where: {TestId: testid},
-
+  distinct:true,
 limit: +size,
 offset:(+page) + (+size)
   
@@ -98,7 +99,7 @@ try{
 })
 
 router.get('/questionanswer', async(req,res)=>{
-const{QuestionId}=req.body
+const{QuestionId}=req.query
 try{
   let findQuestionAnswers = await Answer.findAll({
    where:{ QuestionId: QuestionId}
