@@ -50,8 +50,80 @@ display: flex;
 align-self: center;
 margin-left: 3%;
 }
-
-.accountLogo{
+/* 
+.accountLogo li{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    background:#eee;
+    padding:0;
 font-size: 20px;
 
+} */
+
+.accountLogo{
+ font-size: 20px;
+
 }
+
+.accountLogo ul {
+    display:none;
+    position:absolute;
+    top:100%;
+    right: 0;
+    background:#eee;
+    padding:0;
+    color: black;
+    width: 300px;
+    justify-content: center;
+    padding: 30px;
+   
+}
+
+/* 
+.accountLogo a{
+    display:block;
+    color:#242121;
+    text-decoration:none;
+    font-weight:400;
+    font-size:15px;
+    padding:10px;
+    font-family:"HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform:uppercase;
+    letter-spacing:1px;
+
+} */
+
+.accountLogo ul li{
+    display: flex;
+    float:none;
+    width:80%;
+    height: 40px;
+    
+}
+
+.accountLogo li{
+    position:relative;
+    float:left;
+    margin:0;
+    padding:10px;
+
+}
+
+.accountLogo:hover > ul {
+    background:#ffffff;
+    display: block
+   }
+
+   .accountLogo:hover{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+   }
+
+   .accountLogo ul li a{
+
+    color: black;
+   }

@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const {Test,Question,Answer,User_Answer} = require("../../db");
-
+const jwt = require('jsonwebtoken')
 const router = Router()
 
 const getTestDb = async() =>{
@@ -15,17 +15,35 @@ return error.message
 
 
 router.get('/', async(req,res)=>{
-  try{
-    let  testList = await getTestDb()
-    if(!testList.length){res.status(200).send("No hay ningun test todavia!")}
-    else{res.status(200).json(testList)}
+  const authorization = req.get('authorization')
+ console.log(authorization)
+  if(authorization.length <= 7){
+    res.status(401).json('token missing')
+  }
+  // res.send("malama")
+  if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+    const token = authorization.substring(7)
+    const decodedToken = jwt.verify(token, process.env.HASH_PASS )
 
-  } catch(error){
- res.send(error.message)
+    console.log(decodedToken)
+    if(!token || !decodedToken.id){
+      return res.status(401).json({error: 'token is missing or invalid'})
+    }
+    try{
+      let  testList = await getTestDb()
+      console.log(testList)
+      if(!testList.length){res.status(200).send("No hay ningun test todavia!")}
+      else{res.status(200).json(testList)}
+  
+    } catch(error){
+   res.send(error.message)
+  
+    } 
+  
+  
 
-  } 
-
-
+  }
+ 
 
 })
 
@@ -33,6 +51,20 @@ router.get('/', async(req,res)=>{
 router.post('/', async(req,res)=>{
 
 const{name}=req.body
+const{authorization}=req.get
+if(authorization <= 7){
+  res.status(401).json('token missing')
+}
+
+if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+  const token = authorization.substring(7)
+  const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+
+
+  if(!token || !decodedToken.id){
+    return res.status(401).json({error: 'token is missing or invalid'})
+  }
+
 try{
   let createTest = Test.create({
     name
@@ -41,7 +73,7 @@ try{
 }catch{
  res.send(error.message)
 }
-
+}
 
 
 })
@@ -50,19 +82,49 @@ try{
 router.post('/question', async(req,res) =>{
 
     const{question,correct_answer,TestId}=req.body
+    const {authorization}= req.get
 
+    if(authorization.length <= 7){
+      res.status(401).json('token missing')
+    }
+    
+    if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+      const token = authorization.substring(7)
+      const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+    
+    
+      if(!token || !decodedToken.id){
+        return res.status(401).json({error: 'token is missing or invalid'})
+      }
+    
  const questionCreator = await Question.create({
    question,
     correct_answer
  })
 await questionCreator.setTest(TestId)
 res.status(200).send(`pregunta ${question} creada con exito`)
-
+    }
 
 })
 
 router.get('/question',async(req,res)=>{
 const{testid, page,size=1} = req.query
+const authorization = req.get('authorization')
+console.log(authorization)
+
+if(authorization <= 7) {
+  res.status(401).json('token is missing')
+ }
+
+if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+  const token = authorization.substring(7)
+  const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+
+
+  if(!token || !decodedToken.id){
+    return res.status(401).json({error: 'token is missing or invalid'})
+  }
+
 console.log(`db ${page}`)
 console.log(typeof(testid))
 let options = {
@@ -74,19 +136,37 @@ offset:(+page) + (+size)
 }
 try{
   let {count,rows} = await Question.findAndCountAll(options)
-
-
-  
-  res.status(200).json({total: count,categories: rows})
+  console.log(`soy counts ${count}`)
+  if(count){
+  res.status(200).json({total: count,categories: rows})}
+  else{
+    res.status(400).send("el test no tiene aun preguntas!")
+  }
 }catch(error){
     res.status(404).send(error.message)
 }
+}
 
+// res.status(200).send("soy la respuesta")
 })
 
 
 router.post('/questionanswer', async(req,res)=>{
+  const{authorization}=req.get
 const{QuestionId,answer} = req.body
+if(authorization.length <= 7){
+  res.status(401).json('token missing')
+}
+
+if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+  const token = authorization.substring(7)
+  const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+
+
+  if(!token || !decodedToken.id){
+    return res.status(401).json({error: 'token is missing or invalid'})
+  }
+
 try{
  let postAnswer = await Answer.create({
    QuestionId,
@@ -95,6 +175,7 @@ try{
  res.status(200).send(`respuesta ${answer} creada con exito`)
 }catch(error){
   res.status(400).send(error.message)
+}
 }
 })
 
@@ -116,7 +197,21 @@ try{
 })
 
 router.post('/useranswers',async(req,res)=>{
+
 const{UserId, QuestionId, AnswerId,correct}=req.body
+const{authorization}=req.get
+if(authorization.length <= 7){
+  res.status(401).json('token missing')
+}
+
+if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+  const token = authorization.substring(7)
+  const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+
+
+  if(!token || !decodedToken.id){
+    return res.status(401).json({error: 'token is missing or invalid'})
+  }
 
 try{
 let answerPost = await User_Answer.create({
@@ -136,12 +231,27 @@ let answerPost = await User_Answer.create({
 }
 
 
-
+}
 
 })
 
 router.get('/useranswers',async(req,res)=>{
+  
 const{UserId,userTestId} = req.body
+const{authorization}=req.get
+if(authorization.length <= 7){
+  res.status(401).json('token missing')
+}
+
+if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+  const token = authorization.substring(7)
+  const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+
+
+  if(!token || !decodedToken.id){
+    return res.status(401).json({error: 'token is missing or invalid'})
+  }
+
 try{
  findUserAnswers= user_tests.findAll({
    where:{ UserId: UserId, userTestId: userTestId }
@@ -151,6 +261,6 @@ else{res.status(200).json(findUserAnswers)}
 }catch(error){
   res.status(400).send(error.message)
 }
-
+}
 })
 module.exports = router

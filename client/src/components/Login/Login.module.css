@@ -29,6 +29,7 @@ height: 97vh;
     align-items: center;
 
 
+
 }
 .formField{
     display: flex;
@@ -66,5 +67,25 @@ background-color:#f79256;
 border-radius: 8px;
 border: none;
 margin-top: 7%;
+
+}
+
+.buttonSigin{
+    width: 150px;
+    height: 30px;
+    font-size: 15px;
+    color: #f79256;
+    background-color:white; 
+    border-radius: 8px;
+    border: 1.8px solid #f79256;
+    margin-top: 7%;
+    
+
+
+}
+
+.buttonsLoginColumn{
+display: flex;
+flex-direction: column;
 
 }

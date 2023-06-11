@@ -8,8 +8,8 @@ import { AiOutlineLeft,AiOutlineRight } from 'react-icons/ai';
 const Questioncomponent = ({question,questionid,questiontotal,answers}) =>{
 // console.log(question)
 const dispatch = useDispatch()
-const [page,setPage] = useState(0)
-console.log(`antes ${page}`)
+// const [page,setPage] = useState(0)
+// console.log(`antes ${page}`)
 const testeid = "9e9db805-16c8-472f-af72-54e54ea2d9c2"
 let dbquest = useSelector(state => state.testQuestions)
  const statequestionanswers = useSelector(state => state.questionAnswers)
@@ -20,21 +20,21 @@ useEffect(()=>{
 
 
 },[dispatch])
-const handleLoadQuestion =(value) =>{
-  if(value===-1){
-      if(page===0)setPage(0)
-      if(page>=1)setPage(page+value)
-  }if(value === 1){
-    if(page ===dbquest.total-1)setPage(dbquest.total-1)
-   if(page >= 0 && page <=dbquest.total-2)setPage(page+value)
-  }
-dispatch(clearQuestionAnswers())
-dispatch(testQuestions(testeid,page))
-dispatch(questionAnswers(questionid))
-console.log(`despues ${dbquest.categories[0].question}`)
-console.log(page)
+// const handleLoadQuestion =(value) =>{
+//   if(value===-1){
+//       if(page===0)setPage(0)
+//       if(page>=1)setPage(page+value)
+//   }if(value === 1){
+//     if(page ===dbquest.total-1)setPage(dbquest.total-1)
+//    if(page >= 0 && page <=dbquest.total-2)setPage(page+value)
+//   }
+// dispatch(clearQuestionAnswers())
+// dispatch(testQuestions(testeid,page))
+// dispatch(questionAnswers(questionid))
+// console.log(`despues ${dbquest.categories[0].question}`)
+// console.log(page)
 
-}
+// }
 return(
 <div className={style.questionContainer}>
     
@@ -51,7 +51,7 @@ return(
         <div className={style.answerOptions}>
          <ul>
           {
-            statequestionanswers.length && statequestionanswers.map( item =>  
+            answers.length &&   answers.map( item =>  
             <li key={item.id}><input type="radio" value="answerA"/> {item.answer}</li>)
           }
            <li>soy respuestas</li>

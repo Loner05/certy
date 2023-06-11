@@ -7,16 +7,28 @@ import { Route, Routes } from 'react-router';
 import Login from "./components/Login/Login";
 import Coursetest from "./components/Coursetest/Coursetest"
 import Userhome from "./components/Userhome/Userhome"
+import Profile from './components/Profile/Profile'
+import ProtectedRoute from './components/utils/ProtectedRoute'
+import { useSelector } from 'react-redux'
+import Sigup from './components/Signup/Signup'
+import Signup from './components/Signup/Signup'
 function App() {
   const [count, setCount] = useState(0)
-
+  const userlogged = useSelector(state => state.userLogin)
+  
   return (
     <div className="App">
       <Routes>
         <Route exact path={"/"} element={<Main/>}/>
         <Route exact path={"/login"} element={<Login/>}/>
+
+        <Route element={<ProtectedRoute canActivate={userlogged}/>}>
         <Route exact path={"/user"} element={<Userhome/>}/>
+        </Route>
         <Route exact path={"/test"} element={<Coursetest/>}/>
+
+        <Route exact path={"/profile"} element={<Profile/>}/>
+        <Route exact path={"/signup"} element={<Signup/>}/>
       </Routes>
       {/* <div>
         <a href="https://vitejs.dev" target="_blank">
