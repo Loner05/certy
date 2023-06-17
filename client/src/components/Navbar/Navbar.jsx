@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/actions";
 const Navbar = () =>{
-    const userlogged = useSelector(state => state.userLogin)
+    const userlogged = window.localStorage.getItem('token');
 const dispatch = useDispatch()
 const navigate = useNavigate()
     const handleLogOut = () =>{

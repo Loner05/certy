@@ -131,7 +131,7 @@ let options = {
   where: {TestId: testid},
   distinct:true,
 limit: +size,
-offset:(+page) + (+size)
+offset:(+page) + (+size)-1
   
 }
 try{
