@@ -8,6 +8,7 @@ export const UPDATE_PAGE = "UPDATE_PAGE"
 export const LOGOUT = "LOGOUT"
 export const SIGN_UP_USER = "SIGN_UP_USER"
 
+
 export const userLogin = (payload) => {
 
     return  async function (dispatch){
@@ -140,6 +141,29 @@ return async function(dispatch){
  return dispatch({type: QUESTION_ANSWERS, payload: res.data})
 
 }}
+
+
+
+export const userAnswers = async(payload) =>{
+  const token = window.localStorage.getItem('token');
+  let config ={
+    headers:{
+      Authorization:`bearer ${token}`
+    }
+
+  }
+
+  let data = {
+    'HTTP_CONTENT_LANGUAGE': self.language,
+    'QuestionId': payload.question ,
+    'AnswerId': payload.answer,
+   
+
+  }
+   const res = await axios.post(`http://localhost:3001/test/useranswers`,data,config)
+  //  UserId, QuestionId, AnswerId,correct
+   if(res.status === 200){ console.log("respuesta guardada correctamente")}
+}
 
 export const clearQuestionAnswers = () =>{
 return {type: CLEAR_QUESTION_ANSWERS}

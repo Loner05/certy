@@ -2,12 +2,13 @@ import React, { useEffect,useState } from "react";
 import style from './Questioncomponent.module.css'
 import { BiUserCircle } from 'react-icons/bi';
 import { useDispatch, useSelector } from "react-redux";
-import { clearQuestionAnswers, questionAnswers, testQuestions } from "../../../redux/actions";
+import { clearQuestionAnswers, questionAnswers, testQuestions ,userAnswers} from "../../../redux/actions";
 import { AiOutlineLeft,AiOutlineRight } from 'react-icons/ai';
 
 const Questioncomponent = ({question,questionid,questiontotal,answers}) =>{
 // console.log(question)
 const dispatch = useDispatch()
+const[checked,setChecked] = useState("")
 // const [page,setPage] = useState(0)
 // console.log(`antes ${page}`)
 const testeid = "9e9db805-16c8-472f-af72-54e54ea2d9c2"
@@ -35,6 +36,25 @@ useEffect(()=>{
 // console.log(page)
 
 // }
+
+const onSelect= ({target:{value}}) =>{
+setChecked(value)
+console.log(checked)
+
+}
+const isChecked = (value) => value === checked
+
+
+const handleAnswer = (e) =>{
+e.preventDefault()
+let payload ={
+question: dbquest.question.categories[0].id,
+answer: checked
+
+}
+dispatch(userAnswers(payload))
+alert('respuesta enviada')
+}
 return(
 <div className={style.questionContainer}>
     
@@ -52,9 +72,9 @@ return(
          <ul>
           {
             answers.length &&   answers.map( item =>  
-            <li key={item.id}><input type="radio" value="answerA"/> {item.answer}</li>)
+            <li key={item.id}><input type="radio" value={item.id} onChange={onSelect} checked={isChecked(item.id)} /> {item.answer}</li>)
           }
-           <li>soy respuestas</li>
+          <button onClick={handleAnswer}>Enviar respuesta</button>
          </ul>
 
 

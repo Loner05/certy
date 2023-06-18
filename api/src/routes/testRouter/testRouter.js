@@ -152,7 +152,7 @@ try{
 
 
 router.post('/questionanswer', async(req,res)=>{
-  const{authorization}=req.get
+  const authorization = req.get('authorization')
 const{QuestionId,answer} = req.body
 if(authorization.length <= 7){
   res.status(401).json('token missing')
@@ -181,6 +181,7 @@ try{
 
 router.get('/questionanswer', async(req,res)=>{
 const{QuestionId}=req.query
+
 try{
   let findQuestionAnswers = await Answer.findAll({
    where:{ QuestionId: QuestionId}
@@ -198,8 +199,10 @@ try{
 
 router.post('/useranswers',async(req,res)=>{
 
-const{UserId, QuestionId, AnswerId,correct}=req.body
-const{authorization}=req.get
+const{ QuestionId, AnswerId}=req.body
+const authorization = req.get('authorization')
+let correct = true
+
 if(authorization.length <= 7){
   res.status(401).json('token missing')
 }
@@ -207,7 +210,8 @@ if(authorization.length <= 7){
 if(authorization && authorization.toLowerCase().startsWith('bearer ')){
   const token = authorization.substring(7)
   const decodedToken = jwt.verify(token, process.env.HASH_PASS )
-
+  console.log(decodedToken)
+  let UserId = decodedToken.id
 
   if(!token || !decodedToken.id){
     return res.status(401).json({error: 'token is missing or invalid'})
@@ -225,7 +229,7 @@ let answerPost = await User_Answer.create({
   //  answerPost.setUser(UserId)
   //  answerPost.setQuestion(QuestionId)
   //  answerPost.Answer(AnswerId)
-   res.status(400).send("respuesta registrada correctamente")
+   res.status(200).send("respuesta registrada correctamente")
 }catch(error){
   res.status(400).send(error.message)
 }
@@ -238,7 +242,7 @@ let answerPost = await User_Answer.create({
 router.get('/useranswers',async(req,res)=>{
   
 const{UserId,userTestId} = req.body
-const{authorization}=req.get
+const authorization = req.get('authorization')
 if(authorization.length <= 7){
   res.status(401).json('token missing')
 }
