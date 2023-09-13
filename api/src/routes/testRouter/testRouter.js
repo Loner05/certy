@@ -184,7 +184,10 @@ const{QuestionId}=req.query
 
 try{
   let findQuestionAnswers = await Answer.findAll({
-   where:{ QuestionId: QuestionId}
+   where:{ QuestionId: QuestionId
+          
+
+  }
 
   })
   // if(!findQuestionAnswers.length){ res.status(200).send("La pregunta aun no tiene ninguna opcion de respuesta")}
@@ -241,9 +244,11 @@ let answerPost = await User_Answer.create({
 
 router.get('/useranswers',async(req,res)=>{
   
-const{UserId,userTestId} = req.body
+const{UserId,userTestId,  QuestionId} = req.body
 const authorization = req.get('authorization')
-if(authorization.length <= 7){
+
+console.log(`soy authorization ${authorization}`)
+if(authorization && authorization.length <= 7){
   res.status(401).json('token missing')
 }
 
@@ -257,7 +262,16 @@ if(authorization && authorization.toLowerCase().startsWith('bearer ')){
   }
 
 try{
- findUserAnswers= user_tests.findAll({
+if(QuestionId){
+let findanswer = await User_Answer.findAll({
+  where:{QuestionId : QuestionId }
+})
+console.log(findanswer)
+findanswer.length ? res.status(200).json(findanswer): res.status(404).send("sin respuestas")
+}
+
+
+ findUserAnswers=  await user_tests.findAll({
    where:{ UserId: UserId, userTestId: userTestId }
  })
 if(!findUserAnswers.length){res.status(200).send("No se encontraron respuestas del usuario para este test")}

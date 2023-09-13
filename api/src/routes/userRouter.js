@@ -113,7 +113,7 @@ try{
 router.get('/user', async(req,res)=>{
 
    const{userId}= req.params
-   console.log(userId)
+  
    const authorization = req.get('Authorization')
    console.log(`soy authorization ${authorization}`)
      if(authorization.length <= 7) {
@@ -126,10 +126,11 @@ router.get('/user', async(req,res)=>{
       if( !token || !decodedToken.id){
          return res.status(401).json({error: "token is missing or invalid"})
       }
-       const findUserDb = await User.findOne({id : userId})
-       console.log(findUserDb.id)
+      console.log(`soy el id decodificado ${decodedToken.id}`)
+       const findUserDb = await User.findOne({where: {id : decodedToken.id}})
+       console.log(findUserDb.dataValues.id)
        console.log(userId)
-      if( findUserDb.id === userId){
+      if( findUserDb.dataValues.id === decodedToken.id){
 
          res.status(200).json({findUserDb})
       }

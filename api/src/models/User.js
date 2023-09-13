@@ -32,6 +32,11 @@ role:{
     type: DataTypes.STRING,
     defaultValue: 'user'
    
+}, 
+suscription:{
+  type:DataTypes.STRING,
+  defaultValue: "free"   
+
 }
 
 

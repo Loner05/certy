@@ -28,7 +28,7 @@ return(
         userlogged ?
         <li className={style.accountLogo}>
          <ul > 
-         <li>Perfil</li>
+         <li><Link to="/profile">Perfil</Link></li>
          <li>Descargar certificados</li>
          
          <li><Link onClick= {(e)=>  handleLogOut()}>Cerrar sesion<BiLogOut/></Link></li>

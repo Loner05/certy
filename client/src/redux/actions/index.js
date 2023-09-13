@@ -7,6 +7,7 @@ export const CLEAR_QUESTION_ANSWERS = "CLEAR_QUESTION_ANSWERS"
 export const UPDATE_PAGE = "UPDATE_PAGE"
 export const LOGOUT = "LOGOUT"
 export const SIGN_UP_USER = "SIGN_UP_USER"
+export const GET_USER_INFO = "GET_USER_INFO"
 
 
 export const userLogin = (payload) => {
@@ -220,4 +221,51 @@ try{
 }
 
 
+}
+
+
+
+// GET USER INFO NAME, PHOTO, EMAIL, PASSWORD
+
+export const getUserInfo = (id) => async(dispatch) =>{
+try{
+  console.log("estoy en dispatch de getuserinfo")
+  const token = window.localStorage.getItem('token');
+   console.log(`soy toker de getuserinfo ${token}`)
+  let config ={
+    headers:{
+      Authorization:`bearer ${token}`,
+    }
+
+  }
+
+  let data = {
+    'HTTP_CONTENT_LANGUAGE': self.language,
+  
+   
+  }
+   
+ await axios.get(`http://localhost:3001/user/user`,{
+  headers: {
+    Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+  },}).then((res) =>{
+  return dispatch({
+    type: GET_USER_INFO,
+    payload: res.data
+  })
+}
+ )
+  
+
+
+
+
+}catch(error){
+return dispatch({
+type: GET_USER_INFO,
+payload: { error:error.message}
+
+})
+
+}
 }
