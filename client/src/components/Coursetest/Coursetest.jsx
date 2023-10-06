@@ -28,7 +28,7 @@ import axios from "axios";
     }
   
   return async function(dispatch){
-   const res = await axios.get(`http://localhost:3001/test/questionanswer?QuestionId=${payload}`,data, config)
+   const res = await axios.get(`localhost:3001/test/questionanswer?QuestionId=${payload}`,data, config)
    return res.data
   }}
 const Coursetest = () =>{
@@ -106,7 +106,7 @@ const handleLoadQuestion = (value) =>{
     // await carnage()
   //  questionAns(dbquest.categories[0].id)
   // .then(function(value){
-   console.log(dbquest.question.categories[0].id)
+  //  console.log(dbquest.question.categories[0].id)
 
   //   })
   

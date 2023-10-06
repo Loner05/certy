@@ -185,7 +185,6 @@ const{QuestionId}=req.query
 try{
   let findQuestionAnswers = await Answer.findAll({
    where:{ QuestionId: QuestionId
-          
 
   }
 
@@ -200,47 +199,97 @@ try{
 
 })
 
+// router.post('/useranswers',async(req,res)=>{
+
+// const{ QuestionId, AnswerId}=req.body
+// const authorization = req.get('authorization')
+// let correct = true
+
+// if(authorization.length <= 7){
+//   res.status(401).json('token missing')
+// }
+
+// if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+//   const token = authorization.substring(7)
+//   const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+//   console.log(decodedToken)
+//   let UserId = decodedToken.id
+
+//   if(!token || !decodedToken.id){
+//     return res.status(401).json({error: 'token is missing or invalid'})
+//   }
+
+// try{
+// let answerPost = await User_Answer.create({
+  
+//   correct,
+//   UserId,
+//   QuestionId,
+//   AnswerId
+
+// })
+//   //  answerPost.setUser(UserId)
+//   //  answerPost.setQuestion(QuestionId)
+//   //  answerPost.Answer(AnswerId)
+//    res.status(200).send("respuesta registrada correctamente")
+// }catch(error){
+//   res.status(400).send(error.message)
+// }
+
+
+// }
+
+// })
+
 router.post('/useranswers',async(req,res)=>{
 
-const{ QuestionId, AnswerId}=req.body
-const authorization = req.get('authorization')
-let correct = true
-
-if(authorization.length <= 7){
-  res.status(401).json('token missing')
-}
-
-if(authorization && authorization.toLowerCase().startsWith('bearer ')){
-  const token = authorization.substring(7)
-  const decodedToken = jwt.verify(token, process.env.HASH_PASS )
-  console.log(decodedToken)
-  let UserId = decodedToken.id
-
-  if(!token || !decodedToken.id){
-    return res.status(401).json({error: 'token is missing or invalid'})
-  }
-
-try{
-let answerPost = await User_Answer.create({
+  const{ payload}=req.body
+  console.log(`soy posto ${payload[1].QuestionId}`)
+  const authorization = req.get('authorization')
+  let correct = true
   
-  correct,
-  UserId,
-  QuestionId,
-  AnswerId
+  if(authorization.length <= 7){
+    res.status(401).json('token missing')
+  }
+  
+  if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+    const token = authorization.substring(7)
+    const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+    console.log(decodedToken)
+    let UserId = decodedToken.id
+  
+    if(!token || !decodedToken.id){
+      return res.status(401).json({error: 'token is missing or invalid'})
+    }
+  
+  try{
+         console.log(`soy la cantidad de respuestas ${payload.length}`)
+    for(let i=0; i < payload.length; i++){
+     
+      await User_Answer.create({
+    
+        correct,
+        UserId,
+        QuestionId: payload[i].QuestionId,
+       AnswerId: payload[i].AnswerId
+      
+      })  
 
-})
-  //  answerPost.setUser(UserId)
-  //  answerPost.setQuestion(QuestionId)
-  //  answerPost.Answer(AnswerId)
-   res.status(200).send("respuesta registrada correctamente")
-}catch(error){
-  res.status(400).send(error.message)
-}
+    }
 
-
-}
-
-})
+    //  answerPost.setUser(UserId)
+    //  answerPost.setQuestion(QuestionId)
+    //  answerPost.Answer(AnswerId)
+     res.status(200).send("respuestas registradas correctamente")
+  }catch(error){
+    res.status(400).send(error.message)
+  }
+  
+  
+  }
+  
+  })
+  
 
 router.get('/useranswers',async(req,res)=>{
   
@@ -264,7 +313,9 @@ if(authorization && authorization.toLowerCase().startsWith('bearer ')){
 try{
 if(QuestionId){
 let findanswer = await User_Answer.findAll({
-  where:{QuestionId : QuestionId }
+  where:{QuestionId : QuestionId,
+             UserId : UserId
+   }
 })
 console.log(findanswer)
 findanswer.length ? res.status(200).json(findanswer): res.status(404).send("sin respuestas")
@@ -275,7 +326,7 @@ findanswer.length ? res.status(200).json(findanswer): res.status(404).send("sin 
    where:{ UserId: UserId, userTestId: userTestId }
  })
 if(!findUserAnswers.length){res.status(200).send("No se encontraron respuestas del usuario para este test")}
-else{res.status(200).json(findUserAnswers)}
+else{res.status(200).send("hubo respueta")}
 }catch(error){
   res.status(400).send(error.message)
 }
