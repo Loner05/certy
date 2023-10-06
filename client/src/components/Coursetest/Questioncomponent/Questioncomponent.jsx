@@ -11,8 +11,10 @@ const Questioncomponent = ({question,questionid,questiontotal,answers}) =>{
 const dispatch = useDispatch()
 const[checked,setChecked] = useState([])
 const[che, setChe] = useState([])
+let reduxpage = useSelector(state => state.page)
 console.log(checked)
-
+console.log(`soy questiontotal ${questiontotal}`)
+console.log(`soy reduxpage ${reduxpage}`)
 let dbAnswer 
 // const [page,setPage] = useState(0)
 // console.log(`antes ${page}`)
@@ -143,7 +145,7 @@ return(
             answers.length &&   answers.map( item =>  
             <li key={item.id}><input type="radio" value={item.id ?? ''}  onChange={onSelect} checked={checked[questionid] === item.id ? true : false} /> {item.answer}</li>)
           }
-          <button onClick={handleAnswer}>Enviar respuesta</button>
+          {/* <button onClick={handleAnswer}>Enviar respuesta</button> */}
          </ul>
 
 
@@ -151,7 +153,13 @@ return(
         {/* <button className={style.sendButton}>Enviar Respuesta</button>
         <button onClick={(e)=> handleLoadQuestion(-1)}><AiOutlineLeft/></button><button onClick={(e)=> handleLoadQuestion(+1)}><AiOutlineRight/></button>  */}
        </div>
+       
        </div>
+       {
+       questiontotal-1 === reduxpage+1 &&
+       
+       <button onClick={handleAnswer}>Enviar respuestas</button>
+}
     </div>
 </div>
 )}

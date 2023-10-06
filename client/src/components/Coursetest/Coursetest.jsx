@@ -42,6 +42,7 @@ const Coursetest = () =>{
     // const state = store.getState();
     let valuer = 0
     let reduxpage = useSelector(state => state.page)
+    let paginatorArray = []
     // let reduxpage = useState(1)
 // console.log(`page getstate ${state.page}`)
     const testeid = "9e9db805-16c8-472f-af72-54e54ea2d9c2"
@@ -122,17 +123,40 @@ const handleLoadQuestion = (value) =>{
 }
 // console.log(`despues ${dbquest.categories[0].question}`)
 
+
+const paginator = () =>{
+for(let i=0; i < reduxpage-1; i++){
+paginatorArray.push(<button onClick={(e)=> handleLoadQuestion(i)}>{i+1}</button>)
+
+}
+
+
+}
+
+console.log(paginatorArray)
     return(
 <div className={style.userPageContainer}>
     <Navbar/>
    
    <div className={style.testQuestionBox}>
     <div>tiempo restante 15:20</div>
-    <div> pregunta {page} de {dbquest.total-2} redux page {reduxpage}</div>
-    <button onClick={(e)=> handleLoadQuestion(0)}>1</button>
-    <button onClick={(e)=> handleLoadQuestion(1)}>2</button>
-    <button onClick={(e)=> handleLoadQuestion(2)}>3</button>
-    <button onClick={(e)=> dispatch(dispatch(updatePage(3)))}>4</button>
+    <div> pregunta {page} de {5} redux page {reduxpage}</div>
+    {
+    
+  
+    
+    (() => {
+          let jsxObjects = [];
+         
+          for(let i=0; i < dbquest.question.total-1; i++) {
+            jsxObjects.push( <button key={i} onClick={(e)=> handleLoadQuestion(i)}>{i+1}</button>
+            );
+         
+          }
+          console.log(jsxObjects)
+          return jsxObjects;
+        })()}
+   
           {
                
           //  dbquest.categories && <div>{dbquest.categories[0].question}</div>
@@ -140,7 +164,7 @@ const handleLoadQuestion = (value) =>{
            
        dbquest.question &&   <div>
           {/* <Questioncomponent question={dbquest.categories[0].question}  questiontotal={dbquest.total} questionid={dbquest.categories[0].id} page={page}/> */}
-           <Questioncomponent question={dbquest.question.categories[0].question} answers={dbquest.answers} questiontotal={dbquest.total} questionid={dbquest.question.categories[0].id} page={page}/>
+           <Questioncomponent question={dbquest.question.categories[0].question} answers={dbquest.answers} questiontotal={dbquest.question.total} questionid={dbquest.question.categories[0].id} page={page}/>
           </div>
           }
 
