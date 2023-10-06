@@ -79,46 +79,37 @@ let dbquest = useSelector(state => state.testQuestions)
 // }
 // {target:{value}}
 const onSelect = (e) => {
-   let alreadyAnswered =  checked.some(item => item.QuestionId === questionid);
- 
-   console.log(`alreadyAnswered ${alreadyAnswered}`);
-      
+    let alreadyAnswered =Object.keys(checked).forEach( key => key === e.target.value ? true : false)
+  //  setChecked({...checked, [questionid] : e.target.value})
+  // // console.log(`soy log de checked[0].obj ${checked[0].obj["250ae560-711d-47c2-a837-1560cb523631"]}`)
+  // console.log(`soy log de checked[0].obj ${checked[0]}`)
+  //  console.log(`alreadyAnswered ${alreadyAnswered}`);
+  console.log(`soy questionid ${questionid}`)
+      console.log(`soy checked.questionid ${checked[questionid]}`)
    if (alreadyAnswered) {
      let newArray = checked.map((item) => {
        if (item.QuestionId === questionid) {
          return {
-           ...item,
-           AnswerId: e.target.value
+        
+          [questionid]: e.target.value,
+          
          };
        }
        return item;
      });
+     console.log(newArray)
      setChecked(newArray)
      
    } else {
      let newItem = {
-       QuestionId: questionid,
-       AnswerId: e.target.value
+       QuestionId: e.target.value,
+ 
      };
-     setChecked([...checked,{QuestionId: questionid, AnswerId: e.target.value}])
+     setChecked(prevState =>({...prevState, [questionid] : e.target.value}))
    }
  };
 
-const isChecked =  (value) =>{
-  // let ifChecked = checked.includes(item => item.AnswerId === value);
-  // console.log(`soy ifchecked ${ifChecked}`)
-  // ifChecked ? true : false
-  console.log(`soy value is checked${value}`)
-   for(let i=0; i < checked.length; i++){
-     if(value === checked[i].AnswerId ){
-     return true}
-     else{return false}
 
-    }
-
-
-
-}
 
 
 const handleAnswer = (e) =>{
@@ -150,7 +141,7 @@ return(
          <ul>
           {
             answers.length &&   answers.map( item =>  
-            <li key={item.id}><input type="radio" value={item.id ?? ''}  onChange={onSelect} checked={isChecked(item.id)} /> {item.answer}</li>)
+            <li key={item.id}><input type="radio" value={item.id ?? ''}  onChange={onSelect} checked={checked[questionid] === item.id ? true : false} /> {item.answer}</li>)
           }
           <button onClick={handleAnswer}>Enviar respuesta</button>
          </ul>
