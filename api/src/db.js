@@ -54,16 +54,16 @@ User_Answer.belongsTo(Question)
 Answer.hasMany(User_Answer);
 User_Answer.belongsTo(Answer)
 
-User.belongsToMany(Answer,{through:"User_answer"})
-Question.belongsToMany(User,{through:"User_answer"}) 
+User.belongsToMany(Answer,{through:"user_answer", foreignKey: 'modeloAId'})
+Question.belongsToMany(User,{through:"user_answer", foreignKey: 'modeloAId'}) 
 
 // Test.belongsToMany(Question,{through:"test_idd"})
 // Question.belongsToMany(Test,{through:"test_idd"})
 // Answer.belongsToMany(Question,{through:"question_id"})
 // Question.belongsToMany(Answer,{through:"question_id"})
-// User.belongsToMany(User_test,{through:"user_test"})
-// User_test.belongsToMany(User,{through:"user_test"})
-// Test.belongsToMany(User_test,{through:"test_id"})
+ User.belongsToMany(User_test,{through:"user_test"})
+User_test.belongsToMany(User,{through:"user_test"})
+ //Test.belongsToMany(User_test,{through:"test_id"})
 // User_test.belongsToMany(Test, {through:"test_id"})
 
 // User_answer.belongsToMany(Answer,{through:"answer_id"})

@@ -1,5 +1,5 @@
 
-import { QUESTION_ANSWERS, TEST_QUESTIONS, USER_LOGIN, CLEAR_QUESTION_ANSWERS,UPDATE_PAGE,LOGOUT,GET_USER_INFO } from "../actions"
+import { QUESTION_ANSWERS, TEST_QUESTIONS, USER_LOGIN, CLEAR_QUESTION_ANSWERS,UPDATE_PAGE,LOGOUT,GET_USER_INFO, GET_TESTUSER_ANSWERS } from "../actions"
 
 
 
@@ -10,6 +10,7 @@ questionAnswers:[],
 page: 0,
 error: null,
 userInfo: "",
+getTestUserAnswers: []
 
 }
 
@@ -74,6 +75,15 @@ return{
 ...state,
 userInfo: action.payload
 }
+}
+
+case GET_TESTUSER_ANSWERS:{
+return{
+...state,
+getTestUserAnswers: action.payload
+
+}
+
 }
 
 

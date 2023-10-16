@@ -143,7 +143,7 @@ console.log(paginatorArray)
     <div> pregunta {page} de {5} redux page {reduxpage}</div>
     {
     
-  
+    dbquest.question &&
     
     (() => {
           let jsxObjects = [];

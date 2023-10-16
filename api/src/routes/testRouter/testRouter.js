@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const {Test,Question,Answer,User_Answer} = require("../../db");
+const {Test,Question,Answer,User_Answer,user_test} = require("../../db");
 const jwt = require('jsonwebtoken')
 const router = Router()
 
@@ -135,6 +135,19 @@ offset:(+page) + (+size)-1
   
 }
 try{
+
+  if(!page){
+  let allAnswers = await Question.findAll({
+    where: {TestId: testid}
+  })
+
+    if(allAnswers){
+      res.status(200).json(allAnswers)
+
+
+    }
+  }
+  if(page){
   let {count,rows} = await Question.findAndCountAll(options)
   console.log(`soy counts ${count}`)
   if(count){
@@ -142,12 +155,13 @@ try{
   else{
     res.status(400).send("el test no tiene aun preguntas!")
   }
+  }
 }catch(error){
     res.status(404).send(error.message)
 }
 }
 
-// res.status(200).send("soy la respuesta")
+
 })
 
 
@@ -199,6 +213,58 @@ try{
 
 })
 
+router.get('/useranswers/delete', async(req,res)=>{
+
+  const authorization = req.get('authorization')
+  const{testId, userId} = req.body
+if(authorization <= 7) {
+  res.status(401).json('token is missing')
+ }
+
+if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+  const token = authorization.substring(7)
+  const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+
+
+  if(!token || !decodedToken.id){
+    return res.status(401).json({error: 'token is missing or invalid'})
+  }
+
+  try{
+   
+     let findUserAnswer = await User_Answer.findAll({
+       where:{QuestionId : QuestionId,
+                  UserId : UserId
+      }
+     })
+
+    let TestAnswers = await Question.findAll({
+      where: {TestId: testid}
+    })
+
+     
+        
+
+
+
+
+     
+
+
+     
+    User_Answer.destroy({
+    where: {}
+
+    })
+
+  }catch(error){
+    res.status(400).send(error.message)
+  }
+
+
+
+}})
+
 // router.post('/useranswers',async(req,res)=>{
 
 // const{ QuestionId, AnswerId}=req.body
@@ -244,7 +310,8 @@ try{
 router.post('/useranswers',async(req,res)=>{
 
   const{ payload}=req.body
-  console.log(`soy posto ${payload[1].QuestionId}`)
+  console.log(`soy payload useranswers ${payload}`)
+  // console.log(`soy posto ${payload[1].QuestionId}`)
   const authorization = req.get('authorization')
   let correct = true
   
@@ -275,6 +342,9 @@ router.post('/useranswers',async(req,res)=>{
       
       })  
 
+
+
+
     }
 
     //  answerPost.setUser(UserId)
@@ -293,7 +363,7 @@ router.post('/useranswers',async(req,res)=>{
 
 router.get('/useranswers',async(req,res)=>{
   
-const{UserId,userTestId,  QuestionId} = req.body
+const{TestId,  QuestionId} = req.body
 const authorization = req.get('authorization')
 
 console.log(`soy authorization ${authorization}`)
@@ -304,7 +374,7 @@ if(authorization && authorization.length <= 7){
 if(authorization && authorization.toLowerCase().startsWith('bearer ')){
   const token = authorization.substring(7)
   const decodedToken = jwt.verify(token, process.env.HASH_PASS )
-
+  let UserId = decodedToken.id
 
   if(!token || !decodedToken.id){
     return res.status(401).json({error: 'token is missing or invalid'})
@@ -312,21 +382,49 @@ if(authorization && authorization.toLowerCase().startsWith('bearer ')){
 
 try{
 if(QuestionId){
-let findanswer = await User_Answer.findAll({
+let findanswer = await user_answer.findAll({
   where:{QuestionId : QuestionId,
              UserId : UserId
    }
 })
-console.log(findanswer)
+
 findanswer.length ? res.status(200).json(findanswer): res.status(404).send("sin respuestas")
 }
 
 
- findUserAnswers=  await user_tests.findAll({
-   where:{ UserId: UserId, userTestId: userTestId }
- })
-if(!findUserAnswers.length){res.status(200).send("No se encontraron respuestas del usuario para este test")}
-else{res.status(200).send("hubo respueta")}
+//  findUserAnswers=  await user_test.findAll({
+//    where:{ UserId: UserId, UserTestId: userTestId }
+//  })
+
+if(UserId && TestId && !QuestionId){
+
+  findUserAnswers=  await User_Answer.findAll({
+    where:{ UserId: UserId }
+  })
+
+  findTestQuestions = await Question.findAll({
+    where: {TestId: TestId}
+  })
+
+  let repetidos = findUserAnswers.filter(item1 => findTestQuestions.some(item2 => item1.QuestionId === item2.id))
+
+
+  if(repetidos){ res.status(200).send(repetidos)}
+  else(res.status(200).send("no hay respuestas registradas por el usuario para este test"))
+    
+
+
+}
+if(UserId && !TestId && !QuestionId){
+  findUserAnswers=  await User_Answer.findAll({
+    where:{ UserId: UserId }
+  })
+  if(findUserAnswers){
+  res.status(200).send(findUserAnswers)}
+  else{res.status(200).send("No hay respuestas del usuario para este test")}
+}
+
+
 }catch(error){
   res.status(400).send(error.message)
 }

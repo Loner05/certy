@@ -8,7 +8,7 @@ export const UPDATE_PAGE = "UPDATE_PAGE"
 export const LOGOUT = "LOGOUT"
 export const SIGN_UP_USER = "SIGN_UP_USER"
 export const GET_USER_INFO = "GET_USER_INFO"
-
+export const GET_TESTUSER_ANSWERS = "GET_TESTUSER_ANSWERS"
 
 export const userLogin = (payload) => {
 
@@ -141,27 +141,37 @@ return async function(dispatch){
  const res = await axios.get(`http://localhost:3001/test/questionanswer?QuestionId=${payload}`,data, config)
  return dispatch({type: QUESTION_ANSWERS, payload: res.data})
 
-}}
+}
+}
 
 
 
-export const userAnswers = async(payload) =>{
+
+export const userAnswers = async(items) =>{
   const token = window.localStorage.getItem('token');
+  let payload = {
+   "payload": items
+
+  }
   let config ={
     headers:{
-      Authorization:`bearer ${token}`
+      Authorization:`bearer ${token}`,
+      "Content-Type": 'application/json',
     }
 
   }
+  
+const url = 'http://localhost:3001/test/useranswers'
 
-  let data = {
-    'HTTP_CONTENT_LANGUAGE': self.language,
-    'QuestionId': payload.question ,
-    'AnswerId': payload.answer,
-   
+  // console.log(payload)
+  //  const res = await axios.post(`localhost:3001/test/useranswers`, JSON.stringify(payload),config)
 
-  }
-   const res = await axios.post(`http://localhost:3001/test/useranswers`,data,config)
+   axios.post(url, JSON.stringify(payload), {
+    headers: {
+       Authorization:`bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  })
   //  UserId, QuestionId, AnswerId,correct
    if(res.status === 200){ console.log("respuesta guardada correctamente")}
 }
@@ -196,6 +206,13 @@ const info = await axios.get(`http://localhost:3001/test/questionanswer?Question
  })
 
 }
+
+
+}
+
+
+export const getTestUserAnswers = (data) => async(dispatch) =>{
+
 
 
 }

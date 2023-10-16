@@ -114,14 +114,26 @@ const onSelect = (e) => {
 
 
 
-const handleAnswer = (e) =>{
-e.preventDefault()
-let payload ={
-question: dbquest.question.categories[0].id,
-answer: checked
+const handleAnswers = (e) =>{
 
-}
-dispatch(userAnswers(payload))
+  const obj = { a: 1, b: 2, c: 3 };
+let moet = []
+let momo = Object.entries(obj).forEach(([key, value]) => {
+ moet.push({Key: key, Value: value});
+});
+
+
+
+console.log(moet)
+let formattedAnswersArray =[]
+let formattedAnswers = Object.entries(checked).forEach(([key,value])=>{
+  formattedAnswersArray.push({QuestionId: key, AnswerId: value});
+
+});
+
+e.preventDefault()
+
+dispatch(userAnswers(formattedAnswersArray))
 alert('respuesta enviada')
 }
 
@@ -158,7 +170,7 @@ return(
        {
        questiontotal-1 === reduxpage+1 &&
        
-       <button onClick={handleAnswer}>Enviar respuestas</button>
+       <button onClick={handleAnswers}>Enviar respuestas</button>
 }
     </div>
 </div>

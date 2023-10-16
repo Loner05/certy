@@ -12,6 +12,8 @@ import ProtectedRoute from './components/utils/ProtectedRoute'
 import { useSelector } from 'react-redux'
 import Sigup from './components/Signup/Signup'
 import Signup from './components/Signup/Signup'
+import Maintestscore from './components/TestScore/MainTestScore'
+
 function App() {
   const [count, setCount] = useState(0)
   const userlogged = useSelector(state => state.userLogin)
@@ -29,6 +31,7 @@ function App() {
 
         <Route exact path={"/profile"} element={<Profile/>}/>
         <Route exact path={"/signup"} element={<Signup/>}/>
+        <Route exact path={"/testscore"} element={<Maintestscore/>}/>
       </Routes>
       {/* <div>
         <a href="https://vitejs.dev" target="_blank">
