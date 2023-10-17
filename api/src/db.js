@@ -54,7 +54,7 @@ User_Answer.belongsTo(Question)
 Answer.hasMany(User_Answer);
 User_Answer.belongsTo(Answer)
 
-User.belongsToMany(Answer,{through:"user_answer", foreignKey: 'modeloAId'})
+User.belongsToMany(User_Answer,{through:"user_answer", foreignKey: 'modeloAId'})
 Question.belongsToMany(User,{through:"user_answer", foreignKey: 'modeloAId'}) 
 
 // Test.belongsToMany(Question,{through:"test_idd"})

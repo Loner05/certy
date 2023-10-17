@@ -42,41 +42,6 @@ export const userLogin = (payload) => {
 }
 
 
-// export const testQuestions = (testid,page) =>{
-//     return async function(dispatch){
-//      const token = window.localStorage.getItem('token');
-
-//     let config ={
-//       headers:{
-//         authorization:`bearer ${token}`
-//       }
-
-//     }
-
-//     let data = {
-//       'HTTP_CONTENT_LANGUAGE': self.language
-//     }
-//     console.log(token)
-//     console.log(testid)
-
-//     try{
-//     const res = await axios.get(`http://localhost:3001/test/question?testid=${testid}&page=${page}`,{
-//       headers: {
-//         Authorization: `Bearer ${window.localStorage.getItem('token')}`,
-//       },})
-//     console.log(`soy page de actions ${page}`)
-//     return dispatch({type: TEST_QUESTIONS, payload: res.data})
-//     console.log(res)
-//   }
-// catch(error){
-// console.log(error)
-// // return dispatch({
-// //     type: TEST_QUESTIONS,
-// //     payload: {error: error.response.data},
-// //   })
-// }
-//     }
-// }
 
 export const testQuestions = (testid,page) =>{
   return async function(dispatch){
@@ -99,7 +64,8 @@ export const testQuestions = (testid,page) =>{
   console.log(testid)
 
   try{
-  await axios.get(`http://localhost:3001/test/question?testid=${testid}&page=${page}`,{
+    typeof page === 'number' ?
+     await axios.get(`http://localhost:3001/test/question?testid=${testid}&page=${page}`,{
     headers: {
       Authorization: `Bearer ${window.localStorage.getItem('token')}`,
     },}).then((res)=>{
@@ -110,6 +76,22 @@ export const testQuestions = (testid,page) =>{
       })
 
     })
+
+
+:   await axios.get(`http://localhost:3001/test/question?testid=${testid}`,{
+    headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+    },}).then((res)=>{
+      questionData.question = res.data 
+      console.log(res.data)
+      //  axios.get(`http://localhost:3001/test/questionanswer?QuestionId=${res.data[0].id}`,data, config).then((res)=>{
+      //   questionData.answers = res.data
+        return dispatch({type: TEST_QUESTIONS, payload: questionData})
+      // })
+
+    })
+ 
+ 
   
   // return dispatch({type: TEST_QUESTIONS, payload: res.data})
   // console.log(res)
@@ -212,7 +194,47 @@ const info = await axios.get(`http://localhost:3001/test/questionanswer?Question
 
 
 export const getTestUserAnswers = (data) => async(dispatch) =>{
-
+  try{
+   
+    const token = window.localStorage.getItem('token');
+ 
+    let config ={
+      headers:{
+        Authorization:`bearer ${token}`,
+      }
+  
+    }
+  
+    let data = {
+      'HTTP_CONTENT_LANGUAGE': self.language,
+    
+     
+    }
+     
+   await axios.get(`http://localhost:3001/test/useranswers?TestId=${data}`,{
+    headers: {
+      Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+    },}).then((res) =>{
+      console.log(res.data)
+    return dispatch({
+      type: GET_TESTUSER_ANSWERS,
+      payload: res.data
+    })
+  }
+   )
+    
+  
+  
+  
+  
+  }catch(error){
+  return dispatch({
+  type: GET_TESTUSER_ANSWERS,
+  payload: { error:error.message}
+  
+  })
+  
+  }
 
 
 }

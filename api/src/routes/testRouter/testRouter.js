@@ -363,7 +363,7 @@ router.post('/useranswers',async(req,res)=>{
 
 router.get('/useranswers',async(req,res)=>{
   
-const{TestId,  QuestionId} = req.body
+const{TestId,  QuestionId} = req.params
 const authorization = req.get('authorization')
 
 console.log(`soy authorization ${authorization}`)
