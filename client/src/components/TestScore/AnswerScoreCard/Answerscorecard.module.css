@@ -1,14 +1,32 @@
 
 
 .mainScoreCard{
-
-    width: 300px;
-    height: 180px;
-    background-color: aqua;
-    border-radius: 15px;
+    display: flex;
+    min-width: 600px;
+    max-width: 800px;
+    height: 130px;
     
+    border-radius: 15px;
+    flex-direction: row;
+    margin: 20px;
+
+  background-color: rgb(231, 238, 238);
+
+}
+.ansQuest{
+
+font-size: large;
+width: 80%;
+}
 
 
-
-
+.checkIcon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+   
+text-align: center;
+color: #7dcfb6;
+font-size: 40px;
 }

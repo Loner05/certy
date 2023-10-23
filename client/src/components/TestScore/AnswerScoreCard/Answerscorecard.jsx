@@ -12,15 +12,19 @@ const Answerscorecard = ({question, selectedAnswer, correct})=>{
 
 return(
     <div className={style.mainScoreCard} >
+      <div className={style.ansQuest}>
      <h4>{question}</h4>
       <p>{selectedAnswer}</p>
+      </div>
+      <div className={style.checkIcon}>
       {
         // 
-        correct  ? <AiFillCheckCircle/>
-       :  <AiFillCloseCircle/>
+        correct  ? <p><AiFillCheckCircle/></p>
+       :  <p><AiFillCloseCircle/></p>
 
 
       }
+      </div>
     </div>
 )}
 

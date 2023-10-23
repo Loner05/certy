@@ -5,37 +5,94 @@ import Answerscorecard from "./AnswerScoreCard/Answerscorecard";
 import axios from "axios";
 import { getTestUserAnswers, questionAnswers, testQuestions } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-
-
-
+import style from './MainTestScore.module.css'
+import CertificacionWidget from "../../Certification/CertificationWidget/CertificationWidget";
 const Maintestscore = () =>{
 
-    const [QuestionAndAnswers, setQuestionAndAnswers]= useState([])
+    const [QuestionAndAnswers, setQuestionAndAnswers]= useState(null)
 let testeid= "9e9db805-16c8-472f-af72-54e54ea2d9c2"
 const [userAnswers,setuserAnswers] = useState([])
+const[Score, setScore] = useState({
+
+rate: '',
+correct: '',
+incorrect: ''
+
+
+})
 const dispatch = useDispatch()
 const stateTestQuestions = useSelector(state => state.testQuestions)
 
 const stateUserAnswers = useSelector(state => state.getTestUserAnswers)
+let certificationInf={
+  name: "maelo moreno",
+  course: "como ser genial",
+  date: "10/12/2008"
 
+
+
+ } 
 let page = ""
 useEffect(()=>{
-dispatch(testQuestions(testeid,page))
+ 
+// setuserAnswers([])
+// dispatch(testQuestions(testeid,page))
+// console.log(`soy useEffect${stateTestQuestions.question === true ? true : false}`)
+// dispatch(getTestUserAnswers(testeid))
+// setTimeout(function(){
+//   if(stateTestQuestions.question.length){ questionAndAnswers() }
+// }, 2000);
+const miFuncion = async () => {
 
-dispatch(getTestUserAnswers(testeid))
-if(stateTestQuestions.question ){ questionAndAnswers() }
+  // Despacha la acción
 
-},[dispatch])
+
+
+  dispatch(testQuestions(testeid,page))
+  dispatch(getTestUserAnswers(testeid))
+
+  // Espera a que la acción se complete
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  
+  if(stateTestQuestions){ questionAndAnswers() }
+  // Ejecuta la función después de que la acción se haya completado
+  console.log('La acción se ha completado');
+};
+
+miFuncion();
+// console.log(`soy useEffect${stateTestQuestions.question === true ? true : false}`)
+
+},[dispatch]
+)
+
+useEffect(()=>{
+  
+  if(stateTestQuestions){ questionAndAnswers()
+   
+   
+  }
+
+
+},[dispatch,stateTestQuestions])
+
+useEffect(()=>{
+  if(userAnswers){ rating()
+   
+   
+  }
+
+
+},[userAnswers])
 
 //  console.log(stateTestQuestions)
 
-
+// console.log(`soy stateTestQuestions.question.length ${stateTestQuestions.question.length}`)
 const questionAndAnswers = async() =>{
-    
- console.log("entre a questionAnswers")
- console.log(stateTestQuestions)
+    setuserAnswers([])
+//  console.log("entre a questionAnswers")
+//  console.log(`soy stateTestQuestions.question.length ${stateTestQuestions.question.length}`)
 if(stateTestQuestions.question){
-for(let i=0; i <  stateTestQuestions.question.length;i++){
+for(let i=0; i < stateTestQuestions.question.length;i++){
     const token = window.localStorage.getItem('token');
     let config ={
         headers:{
@@ -54,30 +111,56 @@ for(let i=0; i <  stateTestQuestions.question.length;i++){
        let userchoose = stateUserAnswers.find(item => item.QuestionId === stateTestQuestions.question[i].id )
        let questanswers =  dbquestionanswers.data.find(item => item.QuestionId === userchoose.QuestionId)
       let questandanswer = {
-        questionid: stateTestQuestions.question[i].id,
+        questionid: stateTestQuestions.question[i].id || undefined,
       question: stateTestQuestions.question[i].question,
-         answerId: questanswers.id || null,
-       useranswer: questanswers.answer || null,
-    correct: userchoose.correct || null
+        answerId: questanswers.id ||undefined,
+       useranswer: questanswers.answer || undefined,
+    correct: userchoose.correct || undefined
 
       }
  console.log(questandanswer)
       setuserAnswers(userAnswers =>[...userAnswers, questandanswer])
-
+  
 
 
 
 }
 }
 }
- console.log(userAnswers)
+
+const rating = () =>{
+console.log("entre a rating")
+
+let totalRate
+let corrects = userAnswers.filter(item => item.correct === true).length
+let incorrects = userAnswers.filter(item => item.crrect === false).length
+if(corrects){ totalRate = (corrects / userAnswers.length)*100}
+ setScore({...Score, rate: totalRate, correct: corrects, incorrect: incorrects})
+console.log(`${corrects},${incorrects}`)
+console.log(Score)
+}
+
 
 
 
 return(
-<div>
+<div >
 <Navbar/>
-<h2>soy page test score</h2>
+<div className={style.MainTestBox}>
+{
+<div className={style.headerPhrase}>
+
+{
+  <div>
+<h1>maeloooo</h1>
+<CertificacionWidget certificationInfo={certificationInf}/>
+
+</div>
+
+
+}
+</div>
+}
 
 { userAnswers && userAnswers.map(item =>(
     < Answerscorecard question={item.question} selectedAnswer={item.useranswer} correct={item.correct}/>)
@@ -85,6 +168,7 @@ return(
 
 
 }
+</div>
 <Footer/>
 </div>
 
