@@ -114,23 +114,23 @@ const onSelect = (e) => {
 
 
 
-const handleAnswers = (e) =>{
+const handleSubmitAnswers = (e) =>{
 
   const obj = { a: 1, b: 2, c: 3 };
 let moet = []
 let momo = Object.entries(obj).forEach(([key, value]) => {
  moet.push({Key: key, Value: value});
 });
+dispatch(clearQuestionAnswers(testeid))
 
 
 
-console.log(moet)
 let formattedAnswersArray =[]
 let formattedAnswers = Object.entries(checked).forEach(([key,value])=>{
   formattedAnswersArray.push({QuestionId: key, AnswerId: value});
 
 });
-
+console.log(formattedAnswersArray)
 e.preventDefault()
 
 dispatch(userAnswers(formattedAnswersArray))
@@ -170,7 +170,7 @@ return(
        {
        questiontotal-1 === reduxpage+1 &&
        
-       <button onClick={handleAnswers}>Enviar respuestas</button>
+       <button onClick={handleSubmitAnswers}>Enviar respuestas</button>
 }
     </div>
 </div>

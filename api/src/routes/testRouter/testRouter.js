@@ -193,6 +193,7 @@ try{
 }
 })
 
+
 router.get('/questionanswer', async(req,res)=>{
 const{QuestionId}=req.query
 
@@ -213,10 +214,10 @@ try{
 
 })
 
-router.get('/useranswers/delete', async(req,res)=>{
+router.delete('/useranswers', async(req,res)=>{
 
   const authorization = req.get('authorization')
-  const{testId, userId} = req.body
+  const{testId} = req.body
 if(authorization <= 7) {
   res.status(401).json('token is missing')
  }
@@ -224,7 +225,7 @@ if(authorization <= 7) {
 if(authorization && authorization.toLowerCase().startsWith('bearer ')){
   const token = authorization.substring(7)
   const decodedToken = jwt.verify(token, process.env.HASH_PASS )
-
+  let userId = decodedToken.id
 
   if(!token || !decodedToken.id){
     return res.status(401).json({error: 'token is missing or invalid'})
@@ -233,33 +234,47 @@ if(authorization && authorization.toLowerCase().startsWith('bearer ')){
   try{
    
      let findUserAnswer = await User_Answer.findAll({
-       where:{QuestionId : QuestionId,
-                  UserId : UserId
+       where:{
+                  UserId : userId,
+                 
       }
      })
 
     let TestAnswers = await Question.findAll({
-      where: {TestId: testid}
+      where: {TestId: testId,
+                            }
+    })
+     
+    console.log(TestAnswers[1].id)
+
+
+
+    
+   
+
+   
+  
+ for(let i=0; i < TestAnswers.length; i++){
+  
+   await  User_Answer.destroy({
+    where: {UserId: userId,
+            QuestionId: TestAnswers[i].id
+     }
+
     })
 
-     
-        
 
 
 
+ }
 
-     
-
-
-     
-    User_Answer.destroy({
-    where: {}
-
-    })
-
-  }catch(error){
-    res.status(400).send(error.message)
-  }
+ //  answerPost.setUser(UserId)
+ //  answerPost.setQuestion(QuestionId)
+ //  answerPost.Answer(AnswerId)
+  res.status(200).send("respuestas borradas correctamente")
+}catch(error){
+ res.status(400).send(error.message)
+}
 
 
 

@@ -148,7 +148,7 @@ const url = 'http://localhost:3001/test/useranswers'
   // console.log(payload)
   //  const res = await axios.post(`localhost:3001/test/useranswers`, JSON.stringify(payload),config)
 
-   axios.post(url, JSON.stringify(payload), {
+   const res = await axios.post(url, JSON.stringify(payload), {
     headers: {
        Authorization:`bearer ${token}`,
       'Content-Type': 'application/json'
@@ -158,8 +158,37 @@ const url = 'http://localhost:3001/test/useranswers'
    if(res.status === 200){ console.log("respuesta guardada correctamente")}
 }
 
-export const clearQuestionAnswers = () =>{
-return {type: CLEAR_QUESTION_ANSWERS}
+export const clearQuestionAnswers = async(userid,testid) =>{
+  const token = window.localStorage.getItem('token');
+  let body= {
+   testId: testid
+   }
+
+  let config ={
+    headers:{
+      Authorization:`bearer ${token}`,
+      "Content-Type": 'application/json',
+    }
+
+  }
+  
+const url = 'http://localhost:3001/test/useranswers'
+
+  // console.log(payload)
+  //  const res = await axios.post(`localhost:3001/test/useranswers`, JSON.stringify(payload),config)
+
+   const res = await axios.delete(url, JSON.stringify(body), {
+    headers: {
+       Authorization:`bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  })
+  //  UserId, QuestionId, AnswerId,correct
+   if(res.status === 200){ console.log("respuestas borradas correctamente")}
+
+
+
+
 }
 
 
