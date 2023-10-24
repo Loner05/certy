@@ -1,0 +1,39 @@
+.fullButton{
+background-color: #F79256;
+color: white;
+font-weight: 400;
+font-size: 18px;
+
+
+
+}
+
+.fullButton:active{
+transform: scale(1.02);
+
+}
+.emptyButton{
+
+    border: 2px solid #F79256;
+    margin: 10px;
+    font-weight: 400;
+    font-size: 18px;
+    color: rgb(42, 41, 41);
+
+}
+
+.emptyButton:hover{
+    border: 3px solid #f6a87b;
+    color: white;
+    background-color: #F79256;
+
+}
+
+.emptyButton:active{
+
+    transform: scale(1.02)
+
+
+
+
+}

@@ -16,3 +16,42 @@ margin-top: 10%;
 
 
 }
+
+
+
+.ratingAndCertificateBox{
+display: flex;
+flex-direction: column;
+align-content: center;
+justify-content: center;
+width: 800px;
+min-height: 400px;
+margin-bottom: 30px;
+border-radius: 15px;
+align-items: center;
+border: 5px solid aquamarine;
+
+
+
+}
+
+.fullButton{
+    display: flex;
+    flex-direction: row;
+     align-items: center;
+
+    background-color: #F79256;
+    color: white;
+    font-weight: 400;
+    font-size: 18px;
+    max-width: 300px;
+    margin-top: 20px;
+    
+    }
+
+    .fullButton p{
+     padding-right: 10px;
+     margin: 0;
+
+    
+    }

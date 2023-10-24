@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import FullfilledCertificate from "../CertificationTemplates/Fullfilled Certificate/FullfilledCertificate";
-
+import style from './CertificationWidget.module.css'
 
 const CertificacionWidget = ({certificationInfo}) =>{
 const[watchCertificate, setWatchCertificate] = useState(false)
@@ -12,7 +12,7 @@ const Buttons = () =>{
 <div>
 
 
-<button 
+<button className={style.fullButton}
 onClick={()=>{
     setWatchCertificate(!watchCertificate)}}
     >
@@ -27,7 +27,7 @@ watchCertificate ? "Ocultar Certificado" : "Ver Certificado"
 document={<FullfilledCertificate CertificateData={certificationInfo}/>}
 filename= "certificado.pdf"
 >
-<button>Descargar certificado</button>
+<button className={style.emptyButton}>Descargar certificado</button>
 </PDFDownloadLink>
 
 </div>)}
@@ -44,7 +44,7 @@ certificationInfo ? (
 
 {watchCertificate ?(
 
-<PDFViewer>
+<PDFViewer style={{width:'120vh',height:'90vh'}}>
     <FullfilledCertificate CertificateData={certificationInfo}/>
 </PDFViewer>
 

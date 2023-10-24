@@ -7,6 +7,7 @@ import { getTestUserAnswers, questionAnswers, testQuestions } from "../../redux/
 import { useDispatch, useSelector } from "react-redux";
 import style from './MainTestScore.module.css'
 import CertificacionWidget from "../../Certification/CertificationWidget/CertificationWidget";
+import { AiOutlineReload } from 'react-icons/ai';
 const Maintestscore = () =>{
 
     const [QuestionAndAnswers, setQuestionAndAnswers]= useState(null)
@@ -88,7 +89,7 @@ useEffect(()=>{
 
 // console.log(`soy stateTestQuestions.question.length ${stateTestQuestions.question.length}`)
 const questionAndAnswers = async() =>{
-    setuserAnswers([])
+    // setuserAnswers([])
 //  console.log("entre a questionAnswers")
 //  console.log(`soy stateTestQuestions.question.length ${stateTestQuestions.question.length}`)
 if(stateTestQuestions.question){
@@ -137,9 +138,36 @@ let incorrects = userAnswers.filter(item => item.crrect === false).length
 if(corrects){ totalRate = (corrects / userAnswers.length)*100}
  setScore({...Score, rate: totalRate, correct: corrects, incorrect: incorrects})
 console.log(`${corrects},${incorrects}`)
-console.log(Score)
+switch (Score.rate){
+ case Score > 70:
+  return <div>
+    <h2>Felicidades! superaseete el test con un puntaje de {Score.rate}%</h2>
+    <p>Respondiste correctamente {Score.correct} de un total de {userAnswers.length}</p>
+    </div>
+ 
+
+
+}
 }
 
+const ratingMessage = () =>{
+  switch (true) {
+    case Score.rate > 70:
+      return <div className={style.ratingAndCertificateBox}><h2>Felicidades! superaste el test con un puntaje de {Score.rate}%</h2>
+      <p>Respondiste correctamente {Score.correct} preguntas de un total de {userAnswers.length}</p>
+      <CertificacionWidget certificationInfo={certificationInf}/>
+      </div>;
+      case Score.rate < 70:
+        return  <div className={style.ratingAndCertificateBox}><h2>¡ Desafortunadamente no superaste el test !</h2>
+        <p>Respondiste correctamente {Score.correct} preguntas de un total de {userAnswers.length}</p>
+        <button className={style.fullButton}> <p>Intenta de nuevo </p>  <AiOutlineReload/></button>
+        </div>;
+     
+    default:
+      return <div>Cargando...</div>;
+  }
+
+}
 
 
 
@@ -149,11 +177,19 @@ return(
 <div className={style.MainTestBox}>
 {
 <div className={style.headerPhrase}>
+{
+ratingMessage()
+
+}
+
 
 {
+
+
+
   <div>
-<h1>maeloooo</h1>
-<CertificacionWidget certificationInfo={certificationInf}/>
+
+
 
 </div>
 
