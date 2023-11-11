@@ -9,9 +9,9 @@ import Teststartcard from "./Teststartcard/Teststartcard";
 import { useDispatch, useSelector } from "react-redux";
 import { clearQuestionAnswers, questionAnswers, testQuestions, updatePage } from "../../redux/actions";
 import { AiOutlineLeft,AiOutlineRight } from 'react-icons/ai';
-import { unstable_useBlocker } from "react-router-dom";
+import { unstable_useBlocker, useParams } from "react-router-dom";
 import axios from "axios";
-
+import Countdown from "../Timer/Countdown";
 
 
  const questionAns = (payload) =>{
@@ -45,8 +45,11 @@ const Coursetest = () =>{
     let paginatorArray = []
     // let reduxpage = useState(1)
 // console.log(`page getstate ${state.page}`)
-    const testeid = "9e9db805-16c8-472f-af72-54e54ea2d9c2"
+    const {testeid} = useParams()
+    const params = useParams()
+    console.log(params)
 
+    console.log(`soy testeid ${testeid}`)
     let dbquest = useSelector(state => state.testQuestions)
     //  console.log(dbquest.categories[0].question)
     let dbanswers = useSelector(state => state.questionAnswers)
@@ -123,7 +126,7 @@ const handleLoadQuestion = (value) =>{
 }
 // console.log(`despues ${dbquest.categories[0].question}`)
 
-
+let endtime = Date.now() + 120000
 const paginator = () =>{
 for(let i=0; i < reduxpage-1; i++){
 paginatorArray.push(<button onClick={(e)=> handleLoadQuestion(i)}>{i+1}</button>)
@@ -139,7 +142,10 @@ console.log(paginatorArray)
     <Navbar/>
    
    <div className={style.testQuestionBox}>
-    <div>tiempo restante 15:20</div>
+    <div>tiempo restante <Countdown countdownTimestampMs={endtime} /> </div>
+       <div>{testeid}testeid</div>
+   
+   
     <div> pregunta {page} de {5} redux page {reduxpage}</div>
     {
     

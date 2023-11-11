@@ -9,7 +9,9 @@ export const LOGOUT = "LOGOUT"
 export const SIGN_UP_USER = "SIGN_UP_USER"
 export const GET_USER_INFO = "GET_USER_INFO"
 export const GET_TESTUSER_ANSWERS = "GET_TESTUSER_ANSWERS"
-
+export const STATUS_QUESTION_ANSWERS = "STATUS_QUESTION_ANSWERS"
+export const REMAIN_TEST_TIME = "REMAIN_TEST_TIME"
+export const GET_TEST = "GET_TEST"
 export const userLogin = (payload) => {
 
     return  async function (dispatch){
@@ -41,7 +43,36 @@ export const userLogin = (payload) => {
 
 }
 
+export const getTEST = () =>{
+  console.log("estoy en gettest")
+  const token = window.localStorage.getItem('token');
+  let config ={
+    headers:{
+      authorization:`bearer ${token}`
+    }
 
+  }
+
+  let data = {
+    'HTTP_CONTENT_LANGUAGE': self.language
+  }
+
+return async function(dispatch){
+ await axios.get(`http://localhost:3001/test`,{
+  headers: {
+    Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+  },}).then((res)=>{
+
+ return dispatch({type: GET_TEST, payload: res.data})
+
+ })
+ 
+
+
+}
+
+
+}
 
 export const testQuestions = (testid,page) =>{
   return async function(dispatch){
@@ -106,7 +137,7 @@ console.log(error)
   }
 }
 
-export const questionAnswers = (payload) =>{
+export const questionAnswers = (items) => async(dispatch) =>{
   const token = window.localStorage.getItem('token');
   let config ={
     headers:{
@@ -129,7 +160,7 @@ return async function(dispatch){
 
 
 
-export const userAnswers = async(items) =>{
+export const userAnswers = (items) =>async(dispatch) =>{
   const token = window.localStorage.getItem('token');
   let payload = {
    "payload": items
@@ -155,38 +186,40 @@ const url = 'http://localhost:3001/test/useranswers'
     }
   })
   //  UserId, QuestionId, AnswerId,correct
-   if(res.status === 200){ console.log("respuesta guardada correctamente")}
+   if(res.status === 200){return dispatch({type: "STATUS_QUESTION_ANSWERS", payload: "respuestas enviadas exitosamente"})}
+   if(res.status !== 200){return dispatch({type: "STATUS_QUESTION_ANSWERS", payload:{error: "Opps algo ha ocurrido!"}})}
 }
 
-export const clearQuestionAnswers = async(userid,testid) =>{
+export const clearQuestionAnswers = (testid) =>{
+
+  return async function(){
   const token = window.localStorage.getItem('token');
   let body= {
-   testId: testid
+    testId:"9e9db805-16c8-472f-af72-54e54ea2d9c2",
+    userId:"a1bdbea7-c77e-44a6-b5b8-f90309288df8"
    }
 
   let config ={
     headers:{
       Authorization:`bearer ${token}`,
-      "Content-Type": 'application/json',
+      'Content-Type': 'application/json'
     }
 
   }
   
 const url = 'http://localhost:3001/test/useranswers'
 
-  // console.log(payload)
-  //  const res = await axios.post(`localhost:3001/test/useranswers`, JSON.stringify(payload),config)
 
-   const res = await axios.delete(url, JSON.stringify(body), {
+   const res = await axios.delete( `http://localhost:3001/test/useranswers?testId=${testid}` ,{
     headers: {
        Authorization:`bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  })
-  //  UserId, QuestionId, AnswerId,correct
-   if(res.status === 200){ console.log("respuestas borradas correctamente")}
+      
+    }})
+ 
+  console.log(res)
+   if(res.status === 200){ return console.log("respuestas borradas correctamente")}
 
-
+  }
 
 
 }
@@ -336,4 +369,12 @@ payload: { error:error.message}
 })
 
 }
+}
+
+
+export const remainTestTime = (remaintime) =>{
+
+return dispatch({type: REMAIN_TEST_TIME, payload: remaintime})
+
+
 }

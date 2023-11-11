@@ -1,5 +1,5 @@
 
-import { QUESTION_ANSWERS, TEST_QUESTIONS, USER_LOGIN, CLEAR_QUESTION_ANSWERS,UPDATE_PAGE,LOGOUT,GET_USER_INFO, GET_TESTUSER_ANSWERS } from "../actions"
+import { GET_TEST, REMAIN_TEST_TIME,STATUS_QUESTION_ANSWERS,QUESTION_ANSWERS, TEST_QUESTIONS, USER_LOGIN, CLEAR_QUESTION_ANSWERS,UPDATE_PAGE,LOGOUT,GET_USER_INFO, GET_TESTUSER_ANSWERS, remainTestTime } from "../actions"
 
 
 
@@ -10,8 +10,10 @@ questionAnswers:[],
 page: 0,
 error: null,
 userInfo: "",
-getTestUserAnswers: []
-
+getTestUserAnswers: [],
+statusQuestionAnswers: "",
+remaintestime: true,
+tests: []
 }
 
 
@@ -31,6 +33,18 @@ case USER_LOGIN:
 return {
 ...state,
 userLogin: action.payload
+
+
+}
+case GET_TEST:
+    if(action.payload.error)
+    return{
+       ...state,
+       error: action.payload.error,
+    }
+return {
+...state,
+tests: action.payload
 
 
 }
@@ -85,6 +99,26 @@ getTestUserAnswers: action.payload
 }
 
 }
+
+case STATUS_QUESTION_ANSWERS:{
+    return{
+    ...state,
+    statusQuestionAnswers: action.payload,
+    error: false,
+   
+    
+
+}
+}
+case REMAIN_TEST_TIME:{
+    return{
+...state,
+remaintime: action.payload
+    }
+}
+
+
+
 
 
 default: return{...state}

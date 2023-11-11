@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearQuestionAnswers, questionAnswers, testQuestions ,userAnswers} from "../../../redux/actions";
 import { AiOutlineLeft,AiOutlineRight } from 'react-icons/ai';
 import axios from "axios";
+// import { Redirect } from 'react-router-dom';
 
 const Questioncomponent = ({question,questionid,questiontotal,answers}) =>{
+  
 // console.log(question)
 const dispatch = useDispatch()
 const[checked,setChecked] = useState([])
 const[che, setChe] = useState([])
 let reduxpage = useSelector(state => state.page)
+const remaintime = useSelector (state =>state.remaintime)
 console.log(checked)
 console.log(`soy questiontotal ${questiontotal}`)
 console.log(`soy reduxpage ${reduxpage}`)
@@ -20,6 +23,7 @@ let dbAnswer
 // console.log(`antes ${page}`)
 useEffect(()=>{
    dispatch(questionAnswers(questionid))
+   dispatch(clearQuestionAnswers(testeid))
    // checkUserAnswers()
 
 },[dispatch])
@@ -27,6 +31,8 @@ useEffect(()=>{
 const testeid = "9e9db805-16c8-472f-af72-54e54ea2d9c2"
 let dbquest = useSelector(state => state.testQuestions)
  const statequestionanswers = useSelector(state => state.questionAnswers)
+ const statestatusQuestionAnswers = useSelector(state => state.statusQuestionAnswers)
+ 
 // const completion = ((page*100)/questiontotal)+'%'
 // const checkUserAnswers = async() =>{
 
@@ -115,13 +121,13 @@ const onSelect = (e) => {
 
 
 const handleSubmitAnswers = (e) =>{
-
+ 
   const obj = { a: 1, b: 2, c: 3 };
 let moet = []
 let momo = Object.entries(obj).forEach(([key, value]) => {
  moet.push({Key: key, Value: value});
 });
-dispatch(clearQuestionAnswers(testeid))
+
 
 
 
@@ -132,11 +138,23 @@ let formattedAnswers = Object.entries(checked).forEach(([key,value])=>{
 });
 console.log(formattedAnswersArray)
 e.preventDefault()
-
+console.log(statequestionanswers)
+if(formattedAnswersArray.length > 0){
 dispatch(userAnswers(formattedAnswersArray))
-alert('respuesta enviada')
 }
 
+}
+
+if(remaintime === false){
+
+  handleSubmitAnswers()
+
+}
+
+if(statestatusQuestionAnswers){
+  alert('respuesta enviada')
+  window.location.href = 'http://127.0.0.1:5173/testscore'
+  }
 // const alreadyanswered = axios.get()
 return(
 <div className={style.questionContainer}>

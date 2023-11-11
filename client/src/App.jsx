@@ -3,7 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Main from "./components/Main/Main"
-import { Route, Routes } from 'react-router';
+ import { Route, Routes } from 'react-router';
+// import { BrowserRouter as Router, Route} from 'react-router-dom';
 import Login from "./components/Login/Login";
 import Coursetest from "./components/Coursetest/Coursetest"
 import Userhome from "./components/Userhome/Userhome"
@@ -20,6 +21,7 @@ function App() {
   
   return (
     <div className="App">
+  
       <Routes>
         <Route exact path={"/"} element={<Main/>}/>
         <Route exact path={"/login"} element={<Login/>}/>
@@ -27,12 +29,16 @@ function App() {
         <Route element={<ProtectedRoute canActivate={userlogged}/>}>
         <Route exact path={"/user"} element={<Userhome/>}/>
         </Route>
-        <Route exact path={"/test"} element={<Coursetest/>}/>
-
+        {/* <Route path={"/test/:testeid"} element={<Coursetest/>}/> */}
+        <Route path="/test">
+    <Route index element={<Coursetest />} />   // "/explore"
+    <Route path=":testeid" element={<Coursetest />} /> // "/explore/:id"
+  </Route>
         <Route exact path={"/profile"} element={<Profile/>}/>
         <Route exact path={"/signup"} element={<Signup/>}/>
         <Route exact path={"/testscore"} element={<Maintestscore/>}/>
-      </Routes>
+        </Routes>
+    
       {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />

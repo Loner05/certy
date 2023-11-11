@@ -2,21 +2,27 @@ import React from "react";
 import style from './Coursecard.module.css'
 import displayimg from '../../media/image_display.webp'
 import { Link } from "react-router-dom";
-const Coursecard = () =>{
+const Coursecard = ({testid, name, description, testime}) =>{
+
 
 return(
-    <div className={style.Coursecard}>
+    <div key={testid ? testid : null} className={style.Coursecard}>
      <div className={style.imageContainer}>
      <img src={displayimg} alt="" />
      </div>
     <div>
+        <div>ksoemnfo</div>
         <div className={style.courseTitle} >
-            <h3>curso de manipulacion de alimentos</h3>
+            <h3>{name ? name : null}</h3>
         </div>
         <div  className={style.descriptionCourse}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati eligendi minima cupiditate architecto pariatur doloribus 
+            {description ?description : null}
         </div>
-       <Link to="/test"><button className={style.buttonCourseCard}>Ver Curso</button></Link> 
+        <div>
+           {testime ? testime : null}
+
+        </div>
+       <Link to={`/test?testeid=${testid}`}><button  className={style.buttonCourseCard}>Ver Curso</button></Link> 
     </div>
     </div>
 )

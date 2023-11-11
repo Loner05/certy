@@ -16,8 +16,8 @@ return error.message
 
 router.get('/', async(req,res)=>{
   const authorization = req.get('authorization')
- console.log(authorization)
-  if(authorization.length <= 7){
+ 
+  if(authorization <= 7){
     res.status(401).json('token missing')
   }
   // res.send("malama")
@@ -217,7 +217,7 @@ try{
 router.delete('/useranswers', async(req,res)=>{
 
   const authorization = req.get('authorization')
-  const{testId} = req.body
+  const{testId} = req.query
 if(authorization <= 7) {
   res.status(401).json('token is missing')
  }
