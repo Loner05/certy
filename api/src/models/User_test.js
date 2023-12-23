@@ -5,11 +5,22 @@ const { DataTypes} = require('sequelize')
 module.exports = (sequelize) =>{
 
 sequelize.define('User_test',{
-    id:{
+        id:{
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
+                primaryKey: true
+            },
+
+    testId:{
         type: DataTypes.UUID,
-defaultValue: DataTypes.UUIDV4,
-primaryKey: true
+
       
+        },
+        userId:{
+ type: DataTypes.UUID,
+
+
+
         },
 
 complete_rate:{
@@ -17,6 +28,10 @@ type: DataTypes.BIGINT,
 allowNull: true 
 
 
+},
+date:{
+ type: DataTypes.BIGINT,
+ allowNull: true       
 }
 
 })}

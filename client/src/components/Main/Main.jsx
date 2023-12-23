@@ -12,6 +12,7 @@ return(
    <InitMainBanner/>
    <MainCarouselCards/>
    <Footer/> 
+   <p><a href="sms:+1234567890?body=Hola,%20estoy%20interesado%20en%20tu%20servicio">Enviar SMS</a></p>
 
 </div>
 )}

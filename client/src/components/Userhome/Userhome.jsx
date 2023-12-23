@@ -5,13 +5,13 @@ import Navbar from "../Navbar/Navbar";
 import style from './Userhome.module.css'
 import userPageDisplay from '../../media/user_page_main.svg'
 import { useDispatch, useSelector } from "react-redux";
-import { getTEST } from "../../redux/actions";
+import { getTEST, getUserInfo } from "../../redux/actions";
 const Userhome = () =>{
 const dispatch = useDispatch()
 const stateTests = useSelector(state => state.tests)
 
 useEffect(()=>{
-    
+dispatch(getUserInfo())
  dispatch(getTEST())
 
 
@@ -30,9 +30,10 @@ useEffect(()=>{
         <div><img src={userPageDisplay} alt="" /></div>
     </div>
     <div className={style.courseCardGrid}>
+   
   {stateTests &&
 
-   stateTests.map(item => <Coursecard testid={item.id} name={item.name} description={item.description} testime={item.testiem}/>)
+   stateTests.map(item => <Coursecard testid={item.id} name={item.name} description={item.description} testime={(item.testime/60000).toFixed(2)}/>)
 
 
   }

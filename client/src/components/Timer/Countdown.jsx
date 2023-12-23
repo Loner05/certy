@@ -37,7 +37,8 @@ console.log(countdownTimestampMs)
   return (
     <div>
 
-{remainingTime.days}
+{remainingTime.hours}:
+ 
       {remainingTime.minutes}:
       {remainingTime.seconds}
     </div>

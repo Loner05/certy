@@ -4,15 +4,17 @@ import loginImage from "../../media/loginImage.jpg"
 import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../useAuth/useAuth";
 
 const Login = () =>{
     const dispatch = useDispatch()
     const navigation = useNavigate()
-    const userlogged = useSelector(state => state.userLogin)
+    // const userlogged = useSelector(state => state.userLogin)
+    const { username, isAuthenticated } = useAuth();
     const loginError = useSelector(state => state.error)
     console.log(`soy login error`)
 useEffect( () =>{
-if(userlogged){
+if(isAuthenticated){
     navigation('/user')
 
 }

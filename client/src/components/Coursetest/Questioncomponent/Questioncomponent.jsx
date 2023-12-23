@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearQuestionAnswers, questionAnswers, testQuestions ,userAnswers} from "../../../redux/actions";
 import { AiOutlineLeft,AiOutlineRight } from 'react-icons/ai';
 import axios from "axios";
+import { useParams } from "react-router-dom";
 // import { Redirect } from 'react-router-dom';
 
 const Questioncomponent = ({question,questionid,questiontotal,answers}) =>{
@@ -12,9 +13,11 @@ const Questioncomponent = ({question,questionid,questiontotal,answers}) =>{
 // console.log(question)
 const dispatch = useDispatch()
 const[checked,setChecked] = useState([])
+const {testeid} = useParams()
 const[che, setChe] = useState([])
 let reduxpage = useSelector(state => state.page)
-const remaintime = useSelector (state =>state.remaintime)
+const[remainTime, setRemainTime] = useState("")
+//  setRemainTime(window.localStorage.getItem('remain'))
 console.log(checked)
 console.log(`soy questiontotal ${questiontotal}`)
 console.log(`soy reduxpage ${reduxpage}`)
@@ -24,11 +27,15 @@ let dbAnswer
 useEffect(()=>{
    dispatch(questionAnswers(questionid))
    dispatch(clearQuestionAnswers(testeid))
-   // checkUserAnswers()
+  //  if(remainTime < Date.now()){
+    
+  //   window.location.href = 'http://127.0.0.1:5173/testscore'
+  //   }
+  //  checkUserAnswers()
 
 },[dispatch])
 
-const testeid = "9e9db805-16c8-472f-af72-54e54ea2d9c2"
+
 let dbquest = useSelector(state => state.testQuestions)
  const statequestionanswers = useSelector(state => state.questionAnswers)
  const statestatusQuestionAnswers = useSelector(state => state.statusQuestionAnswers)
@@ -117,10 +124,14 @@ const onSelect = (e) => {
    }
  };
 
+const handleClickSubmitButton = (e) =>{
+e.preventDefault()
+handleSubmitAnswers()
+
+}
 
 
-
-const handleSubmitAnswers = (e) =>{
+const handleSubmitAnswers = () =>{
  
   const obj = { a: 1, b: 2, c: 3 };
 let moet = []
@@ -137,24 +148,20 @@ let formattedAnswers = Object.entries(checked).forEach(([key,value])=>{
 
 });
 console.log(formattedAnswersArray)
-e.preventDefault()
+
 console.log(statequestionanswers)
-if(formattedAnswersArray.length > 0){
-dispatch(userAnswers(formattedAnswersArray))
-}
+// if(formattedAnswersArray.length > 0){
+// dispatch(userAnswers(formattedAnswersArray))
+// }
 
 }
 
-if(remaintime === false){
 
-  handleSubmitAnswers()
 
-}
-
-if(statestatusQuestionAnswers){
-  alert('respuesta enviada')
-  window.location.href = 'http://127.0.0.1:5173/testscore'
-  }
+// if(statestatusQuestionAnswers || remainTime < Date.now()){
+  
+//   window.location.href = 'http://127.0.0.1:5173/testscore'
+//   }
 // const alreadyanswered = axios.get()
 return(
 <div className={style.questionContainer}>
@@ -163,17 +170,17 @@ return(
     <div className={style.completionRate} style={{width:40}}></div>
      <div className={style.question}>
       <div className={style.questionTitle}>
-     {
+     { 
         question &&
         <p>{question}</p>
-     }
+      }
       </div>
        <div className={style.answerBox}>
         <div className={style.answerOptions}>
          <ul>
           {
             answers.length &&   answers.map( item =>  
-            <li key={item.id}><input type="radio" value={item.id ?? ''}  onChange={onSelect} checked={checked[questionid] === item.id ? true : false} /> {item.answer}</li>)
+            <li key={item.id}><input type="radio" value={item.id ?? ''}  onChange={()=>onSelect} checked={checked[questionid] === item.id ? true : false} /> {item.answer}</li>)
           }
           {/* <button onClick={handleAnswer}>Enviar respuesta</button> */}
          </ul>
@@ -188,7 +195,7 @@ return(
        {
        questiontotal-1 === reduxpage+1 &&
        
-       <button onClick={handleSubmitAnswers}>Enviar respuestas</button>
+       <button onClick={()=>handleClickSubmitButton}>Enviar respuestas</button>
 }
     </div>
 </div>

@@ -1,5 +1,5 @@
 
-import { GET_TEST, REMAIN_TEST_TIME,STATUS_QUESTION_ANSWERS,QUESTION_ANSWERS, TEST_QUESTIONS, USER_LOGIN, CLEAR_QUESTION_ANSWERS,UPDATE_PAGE,LOGOUT,GET_USER_INFO, GET_TESTUSER_ANSWERS, remainTestTime } from "../actions"
+import {USER_TEST_DB, GET_TEST, REMAIN_TEST_TIME,STATUS_QUESTION_ANSWERS,QUESTION_ANSWERS, TEST_QUESTIONS, USER_LOGIN, CLEAR_QUESTION_ANSWERS,UPDATE_PAGE,LOGOUT,GET_USER_INFO, GET_TESTUSER_ANSWERS, remainTestTime } from "../actions"
 
 
 
@@ -12,8 +12,9 @@ error: null,
 userInfo: "",
 getTestUserAnswers: [],
 statusQuestionAnswers: "",
-remaintestime: true,
-tests: []
+remaintestime: false,
+tests: [],
+usertests: []
 }
 
 
@@ -113,8 +114,18 @@ case STATUS_QUESTION_ANSWERS:{
 case REMAIN_TEST_TIME:{
     return{
 ...state,
-remaintime: action.payload
+remaintestime: action.payload
     }
+}
+
+case USER_TEST_DB:{
+return{
+...state,
+usertests: action.payload
+
+}
+
+
 }
 
 

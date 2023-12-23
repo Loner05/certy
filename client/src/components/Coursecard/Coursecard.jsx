@@ -11,7 +11,7 @@ return(
      <img src={displayimg} alt="" />
      </div>
     <div>
-        <div>ksoemnfo</div>
+        {/* <div>ksoemnfo</div> */}
         <div className={style.courseTitle} >
             <h3>{name ? name : null}</h3>
         </div>
@@ -19,10 +19,10 @@ return(
             {description ?description : null}
         </div>
         <div>
-           {testime ? testime : null}
-
+          {testime ? <p> {testime} minutos</p>: null} 
+           
         </div>
-       <Link to={`/test?testeid=${testid}`}><button  className={style.buttonCourseCard}>Ver Curso</button></Link> 
+       <Link to={`/test/${testid}`}><button  className={style.buttonCourseCard}>Ver Curso</button></Link> 
     </div>
     </div>
 )

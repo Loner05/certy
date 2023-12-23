@@ -1,64 +1,52 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Main from "./components/Main/Main"
- import { Route, Routes } from 'react-router';
+import { createHashRouter } from 'react-router-dom'
+import { Routes, Route, useParams, BrowserRouter } from 'react-router-dom';
 // import { BrowserRouter as Router, Route} from 'react-router-dom';
 import Login from "./components/Login/Login";
 import Coursetest from "./components/Coursetest/Coursetest"
 import Userhome from "./components/Userhome/Userhome"
 import Profile from './components/Profile/Profile'
 import ProtectedRoute from './components/utils/ProtectedRoute'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Sigup from './components/Signup/Signup'
 import Signup from './components/Signup/Signup'
 import Maintestscore from './components/TestScore/MainTestScore'
+import { getUserInfo } from './redux/actions'
+import jwt_decode from 'jwt-decode'
+import { useAuth } from './components/useAuth/useAuth'
+
 
 function App() {
   const [count, setCount] = useState(0)
-  const userlogged = useSelector(state => state.userLogin)
+
+   const { username, isAuthenticated } = useAuth();
+
   
   return (
     <div className="App">
-  
+   
       <Routes>
-        <Route exact path={"/"} element={<Main/>}/>
-        <Route exact path={"/login"} element={<Login/>}/>
-
-        <Route element={<ProtectedRoute canActivate={userlogged}/>}>
-        <Route exact path={"/user"} element={<Userhome/>}/>
+        <Route  path={"/"} element={<Main/>}/>
+       
+        <Route  path={"/login"} element={<Login/>}/>
+        
+        <Route element={<ProtectedRoute canActivate={isAuthenticated}/>}>
+        <Route  path={"/user"} element={<Userhome/>}/>
+        
         </Route>
-        {/* <Route path={"/test/:testeid"} element={<Coursetest/>}/> */}
-        <Route path="/test">
-    <Route index element={<Coursetest />} />   // "/explore"
-    <Route path=":testeid" element={<Coursetest />} /> // "/explore/:id"
-  </Route>
+     
+        <Route path="/test/:testeid" element={<Coursetest/>} />  
         <Route exact path={"/profile"} element={<Profile/>}/>
+        
         <Route exact path={"/signup"} element={<Signup/>}/>
         <Route exact path={"/testscore"} element={<Maintestscore/>}/>
         </Routes>
+
     
-      {/* <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
     </div>
   )
 }

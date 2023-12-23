@@ -12,5 +12,16 @@ id:{
 name:{
 type: DataTypes.STRING,
 allowNull: false   
-}
+},
+
+description:{
+type: DataTypes.STRING,
+allowNull: true
+
+},
+testime: {
+type: DataTypes.INTEGER,
+allowNull: true
+
+},
 })}

@@ -12,6 +12,11 @@ export const GET_TESTUSER_ANSWERS = "GET_TESTUSER_ANSWERS"
 export const STATUS_QUESTION_ANSWERS = "STATUS_QUESTION_ANSWERS"
 export const REMAIN_TEST_TIME = "REMAIN_TEST_TIME"
 export const GET_TEST = "GET_TEST"
+export const USER_TEST_DB = "USER_TEST_DB"
+export const USER_COMPLETE_RATE = "USER_COMPLETE_RATE"
+
+
+
 export const userLogin = (payload) => {
 
     return  async function (dispatch){
@@ -372,9 +377,102 @@ payload: { error:error.message}
 }
 
 
-export const remainTestTime = (remaintime) =>{
-
+export const remainTestTime = (remaintime) =>(dispatch)=>{
+  window.localStorage.setItem('remain', remaintime)
 return dispatch({type: REMAIN_TEST_TIME, payload: remaintime})
 
+
+}
+
+export const userTestDB = (testId,userId)=> async(dispatch) =>{
+
+
+
+  try{
+   
+   await axios.get(`http://localhost:3001/test/usertests?testId=${testId}&&userId=${userId}`,{
+      headers: {
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+      },}).then((res) =>{
+        console.log(res.data)
+      return dispatch({
+        type:  USER_TEST_DB,
+        payload: res.data
+      })
+    }
+     )
+
+  } catch(error){
+    return dispatch({
+      type:USER_TEST_DB,
+      payload:{error: error.message}
+  })
+  }
+}
+
+
+// export const postUserTestDB = (payload) => async(dispatch) =>{
+
+// try{
+// await axios.post('http://localhost:3001/user/login',{
+//   email: payload.email ,
+//   password: payload.password }
+// ).then((res) => {
+//  window.localStorage.setItem('token', res.data.token)
+// console.log(res.data.token)
+
+//  return dispatch({
+//    type: USER_TEST_DB,
+//    payload: res.data.token,
+//  })
+// })
+
+// }catch(error){
+
+// return dispatch({
+// type: USER_TEST_DB,
+// payload:{postError: error.response.data}
+
+// })
+
+// }
+
+
+
+
+// } 
+
+
+export const userCompleteRate = (payload) => {
+console.log(`estoy en completeRate ${payload.testId}`)
+const token = window.localStorage.getItem('token');
+  return async function(){
+try{
+
+  const res = await axios.post("http://localhost:3001/test/usertests", JSON.stringify(payload), {
+    headers: {
+       Authorization:`bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  })
+console.log(res.data)
+
+// await axios.post('http://localhost:3001//test/usertests',{
+// testId: payload.testId,
+// userId: payload.userId,
+// complete_rate: payload.complete_rate,
+// date: payload.date
+// }, {
+//   headers: {
+//      Authorization:`bearer ${token}`,
+//     'Content-Type': 'application/json'
+//   }}).then((res)=>{console.log(res.data)})
+
+}catch(error){
+
+  console.log(error.message)
+}
+
+  }
 
 }

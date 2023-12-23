@@ -1,24 +1,43 @@
+
+/* *{
+margin: 0;
+padding: 0;
+
+
+} */
+
 .userPageContainer{
 
-background-color: rgb(249, 249, 249);
+background-color: rgb(240, 233, 233);
 
+margin: 0;
+padding: 0;
 
 }
 
 
 .courseCardGrid{
+    
 
 padding-top: 8%; 
-padding-left: 3%;
-padding-right: 3%;
+
 padding-bottom: 10%;
+width: 95%;
+display: flex;
+flex-wrap: wrap;
+
+margin: auto;
+
+
 }
+
 
 .userPageDisplay{
 display: flex;
 flex-direction: row;
 justify-content: center;
 padding-top: 8%;
+width: 100%;
 
 }
 

@@ -68,6 +68,7 @@ useEffect(()=>{
 },[dispatch,stateTestQuestions])
 
 useEffect(()=>{
+  dispatch(getUserInfo())
   if(userAnswers){ rating()
    
    
