@@ -40,10 +40,10 @@ const passwordCorrect = user === null ? false
 
 
 if(!user || !passwordCorrect){
-   res.status(401).json({error:'Usuario o contraseña incorrecto!'})
+   res.status(500).json({error:'Usuario o contraseña incorrecto!'})
 }
 if(user && passwordCorrect){
-   res.send({
+   res.status(200).send({
       name: user.name,
       email: user.email,
       token
@@ -69,7 +69,7 @@ if(user && passwordCorrect){
 
 
 }catch(error){
-   res.status(400).send(error.message)
+   res.status(500).send(error.message)
 }
 
 

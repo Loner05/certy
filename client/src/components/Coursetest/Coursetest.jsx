@@ -7,12 +7,13 @@ import userPageDisplay from '../../media/user_page_main.svg'
 import Questioncomponent from "./Questioncomponent/Questioncomponent";
 import Teststartcard from "./Teststartcard/Teststartcard";
 import { useDispatch, useSelector } from "react-redux";
-import { clearQuestionAnswers, questionAnswers, remainTestTime, testQuestions, updatePage,userTestDB ,getUserInfo, getTEST, userCompleteRate} from "../../redux/actions";
+import {loading,clearQuestionAnswers, questionAnswers, remainTestTime, testQuestions, updatePage,userTestDB ,getUserInfo, getTEST, userCompleteRate, LOADING} from "../../redux/actions";
 import { AiOutlineLeft,AiOutlineRight } from 'react-icons/ai';
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Countdown from "../Timer/Countdown";
 import jwtDecode from 'jwt-decode'
+import Loader from "../Loading/Loading";
 
  const questionAns = (payload) =>{
     const token = window.localStorage.getItem('token');
@@ -37,7 +38,7 @@ import jwtDecode from 'jwt-decode'
 const Coursetest = () =>{
     
     let valuer = 0
-    let loading = false
+      let loader = useSelector(state => state.loading)
     const {testeid} = useParams()
     let finaltime =parseInt( window.localStorage.getItem('remain'))
   //  let finaltime = window.localStorage.getItem('remain')
@@ -49,7 +50,7 @@ const Coursetest = () =>{
    const [cautivedtest24,setCautivatedTest24] = useState(false)
    
    var decoded = jwtDecode(window.localStorage.getItem('token'))
-   
+    
 
    console.log(`soy cautivatedtest24 ${cautivedtest24}`)
 //  console.log(`soy cautivatedtest24 ${cautivedtest24}`)
@@ -69,9 +70,10 @@ const Coursetest = () =>{
     const profile = useSelector(state => state.userInfo)
     let  stateTests = useSelector(state => state.tests)
     let currentTest = stateTests.find( item => item.id === testeid)
-
+ LOADING
     const dispatch = useDispatch()
     useEffect(()=>{
+      dispatch(loading(true))
       dispatch(getUserInfo())
       dispatch(getTEST())
 
@@ -106,8 +108,9 @@ const Coursetest = () =>{
         })}
 
 
+        // dispatch(loading(false))
 
-        },[dispatch,reduxpage,cautivedtest24,testeid])
+        },[dispatch,reduxpage,cautivedtest24,testeid,timeBlock])
 
 
       useEffect(()=>{
@@ -115,8 +118,11 @@ const Coursetest = () =>{
 
 
           testRestriction()
+          
         }
-
+setTimeout(() => {
+  testRestriction()
+}, timeBlock, finaltime);
         // if(userTests.length && currentTest.testime){
         //   console.log(`usertest legnth ${userTests.length}`)
         // if( userTests[0].date + currentTest.testime  < Date.now() ){
@@ -127,7 +133,7 @@ const Coursetest = () =>{
 
 
 
-      },[userTests])
+      },[userTests,timeBlock,reduxpage,cautivedtest24,testeid])
 
 
 
@@ -232,8 +238,9 @@ if(userTests[0] ){
   console.log(`entro a usertests testrestrictions`)
   console.log(`entro a usertests testimes ${parseInt(currentTest.testime), userTests.date + currentTest.testime < Date.now()}`)
  if( parseInt(userTests[0].date) + currentTest.testime < Date.now()){
+  console.log(`entro a setCautivatedTest24`)
   setCautivatedTest24(true)
-  setTimeBlock( Date.now() + ((parseInt(userTests[0].date))-Date.now()+86400000))
+  setTimeBlock( Date.now() + ((parseInt(userTests[0].date))-Date.now()+120000))
 }
 
 if ((userTests[0].date + currentTest.testime - Date.now()) > 0) {
@@ -241,19 +248,25 @@ if ((userTests[0].date + currentTest.testime - Date.now()) > 0) {
   // dispatch(remainTestTime(Date.now() +(userTests[0].date + currentTest.testime - Date.now())))
 /////////////////////////////
 }
-
+if(userTests[0].date + currentTest.testime < Date.now()){
+  console.log("entro a condicion de tiempo se acabo paso a testscore")
+  window.location.href = 'http://127.0.0.1:5173/testscore'
+  }
  }
+// if(userTests[0].date + currentTest.testime < Date.now()){
+// window.location('window.location.href =')
+
+// }
 
 
-
-
+dispatch(loading(false))
 }
     return(
 <div className={style.userPageContainer}>
     <Navbar/>
 
-    { loading && loading ?
-    <div>loading...</div>
+    { loader && loader ?
+    <div style={{marginTop: "150px"}}><Loader/></div>
       
 
   :<div>

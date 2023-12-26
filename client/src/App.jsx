@@ -20,6 +20,7 @@ import jwt_decode from 'jwt-decode'
 import { useAuth } from './components/useAuth/useAuth'
 
 
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -31,19 +32,22 @@ function App() {
    
       <Routes>
         <Route  path={"/"} element={<Main/>}/>
-       
+        
         <Route  path={"/login"} element={<Login/>}/>
         
-        <Route element={<ProtectedRoute canActivate={isAuthenticated}/>}>
+        <Route element={<ProtectedRoute/>}>
         <Route  path={"/user"} element={<Userhome/>}/>
-        
+        <Route path="/test/:testeid" element={<Coursetest/>} />  
+        <Route exact path={"/testscore"} element={<Maintestscore/>}/>
+        <Route exact path={"/profile"} element={<Profile/>}/>
+        <Route exact path={"/testscore"} element={<Maintestscore/>}/>
         </Route>
      
-        <Route path="/test/:testeid" element={<Coursetest/>} />  
-        <Route exact path={"/profile"} element={<Profile/>}/>
+        
+       
         
         <Route exact path={"/signup"} element={<Signup/>}/>
-        <Route exact path={"/testscore"} element={<Maintestscore/>}/>
+     
         </Routes>
 
     
@@ -52,3 +56,40 @@ function App() {
 }
 
 export default App
+
+
+// function App() {
+//   const [count, setCount] = useState(0)
+
+//    const { username, isAuthenticated } = useAuth();
+
+  
+//   return (
+//     <div className="App">
+   
+//       <Routes>
+//         <Route  path={"/"} element={<Main/>}/>
+        
+//         <Route  path={"/login"} element={<Login/>}/>
+        
+//         <Route element={<ProtectedRoute canActivate={isAuthenticated}/>}>
+//         <Route  path={"/user"} element={<Userhome/>}/>
+//         <Route path="/test/:testeid" element={<Coursetest/>} />  
+//         <Route exact path={"/testscore"} element={<Maintestscore/>}/>
+//         <Route exact path={"/profile"} element={<Profile/>}/>
+//         <Route exact path={"/testscore"} element={<Maintestscore/>}/>
+//         </Route>
+     
+        
+       
+        
+//         <Route exact path={"/signup"} element={<Signup/>}/>
+     
+//         </Routes>
+
+    
+//     </div>
+//   )
+// }
+
+// export default App

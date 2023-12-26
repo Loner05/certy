@@ -14,6 +14,7 @@ export const REMAIN_TEST_TIME = "REMAIN_TEST_TIME"
 export const GET_TEST = "GET_TEST"
 export const USER_TEST_DB = "USER_TEST_DB"
 export const USER_COMPLETE_RATE = "USER_COMPLETE_RATE"
+export const LOADING = "LOADING"
 
 
 
@@ -29,7 +30,7 @@ export const userLogin = (payload) => {
      ).then((res) => {
       window.localStorage.setItem('token', res.data.token)
    console.log(res.data.token)
-  
+     
       return dispatch({
         type: USER_LOGIN,
         payload: res.data.token,
@@ -134,10 +135,10 @@ export const testQuestions = (testid,page) =>{
 }
 catch(error){
 console.log(error)
-// return dispatch({
-//     type: TEST_QUESTIONS,
-//     payload: {error: error.response.data},
-//   })
+return dispatch({
+    type: TEST_QUESTIONS,
+    payload: {error: error.response.data},
+  })
 }
   }
 }
@@ -474,5 +475,12 @@ console.log(res.data)
 }
 
   }
+
+}
+
+
+export const loading = (payload) => (dispatch) =>{
+
+return dispatch({type: LOADING, payload})
 
 }

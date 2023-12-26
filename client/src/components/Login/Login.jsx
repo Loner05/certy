@@ -5,19 +5,25 @@ import { userLogin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../useAuth/useAuth";
+import axios from "axios";
 
 const Login = () =>{
+    const loading = useSelector(state => state.loading)
     const dispatch = useDispatch()
     const navigation = useNavigate()
     // const userlogged = useSelector(state => state.userLogin)
     const { username, isAuthenticated } = useAuth();
-    const loginError = useSelector(state => state.error)
-    console.log(`soy login error`)
-useEffect( () =>{
-if(isAuthenticated){
-    navigation('/user')
 
-}
+    console.log(`soy authenticated ${isAuthenticated}`)
+    const loginError = useSelector(state => state.error)
+
+useEffect( () =>{
+   
+  
+// if(isAuthenticated){
+//     navigation('/user')
+
+// }
 if(loginError){setErrors(loginError)}
 if(loginError){console.log(errors)}
 
@@ -57,24 +63,55 @@ if(!loggin.password.trim()){
     errors.password = "ingresa una contraseña!"
 }
 console.log(errors.email)
+
 return errors
 }
 const handleSubmit = async (e) =>{
-
+      setErrors("")
     console.log(loggin)
     e.preventDefault()
-    try{
-const err = validate(login)
-if(err.length){setErrors(err)}
-if(!err.length){
-dispatch(userLogin(loggin))
+   
+ const err = validate(login)
+console.log(err.length)
 
-}
-    }catch(error){return error.message}
+try{
+     if(err.length){   return setErrors(err)}
+// if(!err.length  ){
+//  if(!err.length){
+       
+
+           await axios.post('http://localhost:3001/user/login',{
+           email: loggin.email ,
+           password: loggin.password }
+         ).then((res) => {
+            // isAuthenticated(true)
+                  navigation('/')
+          window.localStorage.setItem('token', res.data.token)
+          console.log("entre a axios login")
+          console.log(res.data.token)
+          return
+              
+          //  return dispatch({type: USER_LOGIN, payload: checkUser.data })
+   
+    
+    })
+//  }
+
+//}
+    }catch(error){
+        
+        alert("error db")
+        console.log(error.message)
+        return setErrors( error.message)}
 }
 
 return(
-    <div className={style.loginContainer}>
+    
+       <div className={style.loginContainer}>
+ {/* {  loading && loading ?
+            <div>loading...</div>
+            
+   : <div> */}
      <div className={style.loginImage}>
         <img src={loginImage} alt="" />
      </div>
@@ -106,7 +143,10 @@ return(
             </form>
         </div>
      </div>
+     {/* </div>
+     } */}
     </div>
+            
 )}
 
 export default Login

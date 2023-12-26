@@ -158,10 +158,10 @@ console.log(statequestionanswers)
 
 
 
-// if(statestatusQuestionAnswers || remainTime < Date.now()){
+if(userTests[0].date + currentTest.testime < Date.now()){
   
-//   window.location.href = 'http://127.0.0.1:5173/testscore'
-//   }
+  window.location.href = 'http://127.0.0.1:5173/testscore'
+  }
 // const alreadyanswered = axios.get()
 return(
 <div className={style.questionContainer}>
