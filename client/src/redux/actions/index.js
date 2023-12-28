@@ -15,6 +15,7 @@ export const GET_TEST = "GET_TEST"
 export const USER_TEST_DB = "USER_TEST_DB"
 export const USER_COMPLETE_RATE = "USER_COMPLETE_RATE"
 export const LOADING = "LOADING"
+export const LOADING2 ="LOADING2"
 
 
 
@@ -480,7 +481,14 @@ console.log(res.data)
 
 
 export const loading = (payload) => (dispatch) =>{
-
+console.log(`soy payload de loading actions${payload}`)
 return dispatch({type: LOADING, payload})
 
 }
+
+
+export const loading2 = (payload) => (dispatch) =>{
+  console.log(`soy payload de loading actions${payload}`)
+  return dispatch({type: LOADING2, payload})
+  
+  }

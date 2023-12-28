@@ -100,7 +100,7 @@ const onSelect = (e) => {
   // console.log(`soy log de checked[0].obj ${checked[0]}`)
   //  console.log(`alreadyAnswered ${alreadyAnswered}`);
   console.log(`soy questionid ${questionid}`)
-      console.log(`soy checked.questionid ${checked[questionid]}`)
+      // console.log(`soy checked.questionid ${checked[questionid]}`)
    if (alreadyAnswered) {
      let newArray = checked.map((item) => {
        if (item.QuestionId === questionid) {
@@ -158,10 +158,10 @@ console.log(statequestionanswers)
 
 
 
-if(userTests[0].date + currentTest.testime < Date.now()){
+// if(userTests[0].date + currentTest.testime < Date.now()){
   
-  window.location.href = 'http://127.0.0.1:5173/testscore'
-  }
+//   window.location.href = 'http://127.0.0.1:5173/testscore'
+//   }
 // const alreadyanswered = axios.get()
 return(
 <div className={style.questionContainer}>

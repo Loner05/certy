@@ -1,5 +1,5 @@
 
-import {LOADING, USER_TEST_DB, GET_TEST, REMAIN_TEST_TIME,STATUS_QUESTION_ANSWERS,QUESTION_ANSWERS, TEST_QUESTIONS, USER_LOGIN, CLEAR_QUESTION_ANSWERS,UPDATE_PAGE,LOGOUT,GET_USER_INFO, GET_TESTUSER_ANSWERS, remainTestTime } from "../actions"
+import {LOADING2, LOADING, USER_TEST_DB, GET_TEST, REMAIN_TEST_TIME,STATUS_QUESTION_ANSWERS,QUESTION_ANSWERS, TEST_QUESTIONS, USER_LOGIN, CLEAR_QUESTION_ANSWERS,UPDATE_PAGE,LOGOUT,GET_USER_INFO, GET_TESTUSER_ANSWERS, remainTestTime } from "../actions"
 
 
 
@@ -15,7 +15,8 @@ statusQuestionAnswers: "",
 remaintestime: false,
 tests: [],
 usertests: [],
-loading: true
+loading: true,
+loading2: true
 }
 
 
@@ -137,6 +138,13 @@ return{
 }
 }
 
+case LOADING2: {
+
+    return{
+        ...state,
+        loading2: action.payload
+    }
+    }
 
 
 

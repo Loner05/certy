@@ -57,7 +57,7 @@
     }
         left: 8px;
         width: 16px;
-        background: #fff;
+        background: #ac4646;
         animation: ldsfacebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
       }
       .ldsfacebook div:nth-child(1) {

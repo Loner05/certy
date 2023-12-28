@@ -87,7 +87,7 @@ const questionAndAnswers = async() =>{
     // setuserAnswers([])
 //  console.log("entre a questionAnswers")
 //  console.log(`soy stateTestQuestions.question.length ${stateTestQuestions.question.length}`)
-if(stateTestQuestions.question){
+if(stateTestQuestions.question && stateUserAnswers){
 for(let i=0; i < stateTestQuestions.question.length-1; i++){
     const token = window.localStorage.getItem('token');
     let config ={
@@ -110,10 +110,10 @@ for(let i=0; i < stateTestQuestions.question.length-1; i++){
         setTimeout(()=>{
 
           let userchoose =  stateUserAnswers.find(item => item.QuestionId === stateTestQuestions.question[i].id )
-       
+                console.log(`userchoose ${userchoose}`)
           let questanswers =  dbquestionanswers.data.find(item => item.QuestionId === userchoose.QuestionId)
    
-          if(userchoose && questanswers){
+          if( userchoose && questanswers){
          let questandanswer = {
            questionid: stateTestQuestions.question[i].id || undefined,
          question: stateTestQuestions.question[i].question,
@@ -142,7 +142,7 @@ console.log("entre a rating")
 
 let totalRate
 let corrects = userAnswers.filter(item => item.correct === true).length
-let incorrects = userAnswers.filter(item => item.crrect === false).length
+let incorrects = userAnswers.filter(item => item.correct === false).length
 if(corrects){ totalRate = (corrects / userAnswers.length)*100}
  setScore({...Score, rate: totalRate, correct: corrects, incorrect: incorrects})
 console.log(`${corrects},${incorrects}`)
@@ -186,7 +186,7 @@ const ratingMessage = () =>{
         </div>;
      
     default:
-      return <div>Cargando...</div>;
+      return <div>Cargando..gh.</div>;
   }
 }
 
