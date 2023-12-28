@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {getRemainingTimeUntilMsTimestamp } from './CountdownTimerUtils'
 
 import {} from '../Coursetest/Questioncomponent/Questioncomponent';
+import { useDispatch } from 'react-redux';
+import { remainTestTime } from '../../redux/actions';
 const Countdown = ({countdownTimestampMs}) => {
 
 console.log(countdownTimestampMs)
@@ -11,15 +13,21 @@ console.log(countdownTimestampMs)
     minutes: '00',
     hours: '00'
   }
+  
   const [remainingTime, setRemainingTime] = useState(defaultTime);
+  
   const[seconds, setSeconds] = useState("")
    // Establece el tiempo inicial en 5 minutos
-
+  //  if(countdownTimestampMs <= Date.now()){
+  //   window.location.href = 'http://127.0.0.1:5173/testscore'
+  //   useDispatch(remainTestTime(false))
+  //  }
   useEffect(() => {
+  
     const interval = setInterval(() => {
       
         updateRemainingTime(countdownTimestampMs)
-       
+
         
     }, 1000); // Actualiza el contador cada minuto (60000 milisegundos)
 

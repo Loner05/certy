@@ -16,6 +16,7 @@ import jwtDecode from 'jwt-decode'
 import Loader from "../Loading/Loading";
 
  const questionAns = (payload) =>{
+
     const token = window.localStorage.getItem('token');
     let config ={
       headers:{
@@ -36,7 +37,7 @@ import Loader from "../Loading/Loading";
 
 
 const Coursetest = () =>{
-    
+ 
     let valuer = 0
       let loader = useSelector(state => state.loading2)
     const {testeid} = useParams()
@@ -58,7 +59,8 @@ const Coursetest = () =>{
 // console.log(`page getstate ${state.page}`)
 
     const[remainTime, setRemainTime] = useState("")
-
+     
+  
 
     console.log(`soy testeid ${testeid}`)
     let dbquest = useSelector(state => state.testQuestions)
@@ -70,7 +72,7 @@ const Coursetest = () =>{
     const profile = useSelector(state => state.userInfo)
     let  stateTests = useSelector(state => state.tests)
     let currentTest = stateTests.find( item => item.id === testeid)
-
+    const stateRemainTestime = useSelector(state => state.remaintestime)
     const dispatch = useDispatch()
     useEffect(()=>{
       dispatch(loading2(true))
@@ -135,7 +137,7 @@ const Coursetest = () =>{
 
 
 
-      },[userTests,timeBlock,reduxpage,cautivedtest24,testeid])
+      },[userTests,timeBlock,reduxpage,cautivedtest24,testeid,stateRemainTestime])
 
 
 
@@ -261,91 +263,10 @@ dispatch(remainTestTime(Date.now() + parseInt(currentTest.testime)));
 
  }}
 
-// const testRestriction = () =>{
+
+ 
 
 
-//   console.log("mogo")
-// }
-
-
-
-// const testRestriction =() =>{
-// // console.log(`condiciones testrestricions 
-// // ${parseInt(userTests[0].date) + parseInt(currentTest.testime) < Date.now()}.
-// // ${parseInt(userTests[0].date) + currentTest.testime < Date.now()},
-// // ${userTests[0].date + parseInt(currentTest.testime) < Date.now()}`)
-// // console.log(`soy usertests length ${!userTests[0].length}` )
-// // console.log(`soy condicion 1 testrestrictions ${parseInt(userTests[0].date) + parseInt(currentTest.testime) < Date.now()}`)
-// //  // si no tengo ningun registro de test
-// if (parseInt(userTests[0].date) + parseInt(currentTest.testime) < Date.now()) {
-//     dispatch(remainTestTime(Date.now() + parseInt(currentTest.testime)));
-//     let payload2 = {
-
-//       testId: testeid,
-//       userId:"a1bdbea7-c77e-44a6-b5b8-f90309288df8",
-//         date: Date.now(),
-//         complete_rate: 45
-
-
-//       }
-//      dispatch(userCompleteRate(payload2))
-//      dispatch(loading(false))
-//    }
-
-
-// // tengo un registro previo de test respondido
-// if(userTests[0].date ){
-   
-
-
-//   console.log(`entro a usertests testrestrictions`)
-//   console.log(`entro a usertests testimes ${parseInt(currentTest.testime), userTests.date + currentTest.testime < Date.now()}`)
-//   //verifico si el test se respondio hace poco y esta en tiempo de bloqueo, si es asi es bloqueado
-
-
-//   setTimeout(()=>{
-//     if( parseInt(userTests[0].date) + currentTest.testime < Date.now()){
-//       console.log(`entro a setCautivatedTest24`)
-//       // setCautivatedTest24(true)
-//       setTimeBlock( (Date.now() + parseInt(userTests[0].date)-Date.now())+120000)
-//       if(parseInt(userTests[0].date) + parseInt(currentTest.testime) < Date.now()){
-//         console.log("entro a condicion de tiempo se acabo paso a testscore")
-//         window.location.href = 'http://127.0.0.1:5173/testscore'
-//         }
-//       dispatch(loading(false))
-//     }
-
-
-//   },2000)
-
-// // verifico quue el test aun esta en tiempo disponible para ser respondido y restablezco el timer
-// if ((userTests[0].date + currentTest.testime - Date.now()) >= 0) {
-
-//   // setCautivatedTest24(false)
-//   dispatch(remainTestTime(Date.now() +((parseInt(userTests[0].date)) + currentTest.testime - Date.now())) )
-//   // dispatch(remainTestTime(Date.now() +(userTests[0].date + currentTest.testime - Date.now())))
-// /////////////////////////////
-// // setTimeout(()=>{
-// //  testRestriction()
-
-// // },Date.now() +((parseInt(userTests[0].date)) + currentTest.testime - Date.now()))
-// dispatch(loading(false))
-// }
-// // setTimeout(() =>{
-// //   if(parseInt(userTests[0].date) + parseInt(currentTest.testime) < Date.now()){
-// //     console.log("entro a condicion de tiempo se acabo paso a testscore")
-// //     window.location.href = 'http://127.0.0.1:5173/testscore'
-// //     }
-// //    },500)
-//   }
-// if(userTests[0].date + currentTest.testime < Date.now()){
-// window.location('window.location.href =')
-
-// }
-
-
-
-// }
     return(
 <div className={style.userPageContainer}>
     <Navbar/>

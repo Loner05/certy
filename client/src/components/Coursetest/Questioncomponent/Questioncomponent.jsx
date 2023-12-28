@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearQuestionAnswers, questionAnswers, testQuestions ,userAnswers} from "../../../redux/actions";
 import { AiOutlineLeft,AiOutlineRight } from 'react-icons/ai';
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // import { Redirect } from 'react-router-dom';
 
 const Questioncomponent = ({question,questionid,questiontotal,answers}) =>{
@@ -94,12 +94,14 @@ let dbquest = useSelector(state => state.testQuestions)
 // }
 // {target:{value}}
 const onSelect = (e) => {
+  console.log("estoy en onselect")
+  
     let alreadyAnswered =Object.keys(checked).forEach( key => key === e.target.value ? true : false)
   //  setChecked({...checked, [questionid] : e.target.value})
   // // console.log(`soy log de checked[0].obj ${checked[0].obj["250ae560-711d-47c2-a837-1560cb523631"]}`)
   // console.log(`soy log de checked[0].obj ${checked[0]}`)
   //  console.log(`alreadyAnswered ${alreadyAnswered}`);
-  console.log(`soy questionid ${questionid}`)
+  console.log(`soy questionid ${questionid,e.target.value}`)
       // console.log(`soy checked.questionid ${checked[questionid]}`)
    if (alreadyAnswered) {
      let newArray = checked.map((item) => {
@@ -127,6 +129,7 @@ const onSelect = (e) => {
 const handleClickSubmitButton = (e) =>{
 e.preventDefault()
 handleSubmitAnswers()
+console.log("estoy en handleClicksubmit button")
 
 }
 
@@ -144,15 +147,20 @@ let momo = Object.entries(obj).forEach(([key, value]) => {
 
 let formattedAnswersArray =[]
 let formattedAnswers = Object.entries(checked).forEach(([key,value])=>{
-  formattedAnswersArray.push({QuestionId: key, AnswerId: value});
+  formattedAnswersArray.push({QuestionId: key, AnswerId: value,TestId: testeid});
 
 });
 console.log(formattedAnswersArray)
 
 console.log(statequestionanswers)
-// if(formattedAnswersArray.length > 0){
-// dispatch(userAnswers(formattedAnswersArray))
-// }
+if(formattedAnswersArray.length > 0){
+  dispatch(userAnswers(formattedAnswersArray))
+
+setTimeout(() => {
+  window.location.href = 'http://127.0.0.1:5173/testscore'
+}, 1000);
+ 
+}
 
 }
 
@@ -180,7 +188,7 @@ return(
          <ul>
           {
             answers.length &&   answers.map( item =>  
-            <li key={item.id}><input type="radio" value={item.id ?? ''}  onChange={()=>onSelect} checked={checked[questionid] === item.id ? true : false} /> {item.answer}</li>)
+            <li key={item.id}><input type="radio" value={item.id }  onChange={onSelect} checked={checked[questionid] === item.id ? true : false} /> {item.answer}</li>)
           }
           {/* <button onClick={handleAnswer}>Enviar respuesta</button> */}
          </ul>
@@ -195,7 +203,7 @@ return(
        {
        questiontotal-1 === reduxpage+1 &&
        
-       <button onClick={()=>handleClickSubmitButton}>Enviar respuestas</button>
+       <button onClick={handleClickSubmitButton}>Enviar respuestas</button>
 }
     </div>
 </div>
