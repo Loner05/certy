@@ -2,13 +2,13 @@ import React from "react";
 import style from './Coursecard.module.css'
 import displayimg from '../../media/image_display.webp'
 import { Link, useNavigate, useNavigation } from "react-router-dom";
-const Coursecard = ({testid, name, description, testime}) =>{
+const Coursecard = ({testid, name, description, testime, image}) =>{
 
 let navigate = useNavigate()
 return(
     <div key={testid ? testid : null} className={style.Coursecard}>
      <div className={style.imageContainer}>
-     <img src={displayimg} alt="" />
+     <img src={image ? image : displayimg} alt="" />
      </div>
     <div>
         {/* <div>ksoemnfo</div> */}

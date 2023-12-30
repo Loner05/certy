@@ -47,58 +47,42 @@ router.get('/', async(req,res)=>{
  
 
 })
-
-
 router.post('/', async(req,res)=>{
 
-const{name,description,testime}=req.body
-const authorization = req.get('authorization')
-
-    if(!authorization || authorization.length <= 7){
-      res.status(401).json('token missing')
-    }
-    
-    if(authorization && authorization.toLowerCase().startsWith('bearer ')){
-      const token = authorization.substring(7)
-      const decodedToken = jwt.verify(token, process.env.HASH_PASS )
-    
-    
-      if(!token || !decodedToken.id){
-        return res.status(401).json({error: 'token is missing or invalid'})
-      }
-    }
-// const {authorization}= req.get('authorization')
-// const token = authorization.substring(7)
-
-// if(authorization <= 7){
+  const{name,description,testime,image}=req.body
+  const authorization = req.get('authorization')
   
-//   return res.status(401).json('token missing')
-// }
+      if(!authorization || authorization.length <= 7){
+        res.status(401).json('token missing')
+      }
+      
+      if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+        const token = authorization.substring(7)
+        const decodedToken = jwt.verify(token, process.env.HASH_PASS )
+      
+      
+        if(!token || !decodedToken.id){
+          return res.status(401).json({error: 'token is missing or invalid'})
+        }
+      }
+  
+  try{
 
-// if(authorization && authorization.toLowerCase().startsWith('bearer ')){
- 
-//   const decodedToken = jwt.verify(token, process.env.HASH_PASS )
-// }
-
-//   if(!token || !decodedToken.id){
-//     return res.status(401).json({error: 'token is missing or invalid'})
-//   }
-
-try{
-  console.log("soy createtest")
-  let createTest = await Test.create({
-    name,
-    description,
-    testime
+    
+    console.log("soy createtest")
+    let createTest = await Test.create({
+      name,
+      description,
+      testime,
+      image
+    })
+   return  res.send(createTest)
+  }catch{
+   return res.send(error.message)
+  }
+  
   })
- return  res.send(`el test ${name}, ha sido creado con exito.`)
-}catch{
- return res.send(error.message)
-}
 
-
-
-})
 
 router.put('/', async(req,res)=>{
 const{testid}= req.query
@@ -207,7 +191,7 @@ try{
 
 router.post('/questionanswer', async(req,res)=>{
   const authorization = req.get('authorization')
-const{QuestionId,answer} = req.body
+const{QuestionId,answer,payload} = req.body
 if(authorization.length <= 7){
   res.status(401).json('token missing')
 }
@@ -222,11 +206,27 @@ if(authorization && authorization.toLowerCase().startsWith('bearer ')){
   }
 
 try{
+
+  if(payload && QuestionId){
+   for(let i =0; i< payload.length; i++){
+    let postAnswer = await Answer.create({
+      QuestionId,
+      answer: payload[i]
+    })
+   
+
+   }
+   res.status(200).send(`respuestas creadas con exito`)
+
+  }
+
+  if(!payload){
  let postAnswer = await Answer.create({
    QuestionId,
    answer
  })
  res.status(200).send(`respuesta ${answer} creada con exito`)
+}
 }catch(error){
   res.status(400).send(error.message)
 }

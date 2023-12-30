@@ -50,3 +50,27 @@ width: 250px;
 
 
 }
+
+
+.secondMenuRow{
+display: flex;
+flex-direction: row;
+justify-content: center;
+border-bottom: 1px #877d79  solid;
+background-color: rgb(232, 234, 235);
+
+}
+
+.itemSecondMenu input{
+    border: 0;
+    background: transparent;
+    outline: none;
+    font-size: 1.2em;
+    color: inherit;
+    border-bottom: 3px #F79256  solid;
+    width: 12em;
+    padding: 15px 10px 5px 10px;
+    font-weight: 200;
+    font-weight: lighter;
+    margin: 0 5px 0 5px;
+}
