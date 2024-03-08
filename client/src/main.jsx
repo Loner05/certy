@@ -13,9 +13,11 @@ import Maintestscore from './components/TestScore/MainTestScore';
 import Profile from './components/Profile/Profile';
 import ProtectedRoute from './ProtectedRoute';
 import Coursetest from './components/Coursetest/Coursetest';
+import Portal from './components/Portal/Portal';
 
 
 const router = createBrowserRouter([
+  
 {
   path:'/',
   element: <Main/>,
@@ -41,7 +43,7 @@ const router = createBrowserRouter([
       element: <Coursetest/>,
     },
     {
-      path:'/testscore',
+      path:'/testscore/:testeid',
       element: <Maintestscore/>,
     },
     {
@@ -49,7 +51,7 @@ const router = createBrowserRouter([
       element: <Profile/>,
     },
 
-    
+   
     
     
 

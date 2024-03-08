@@ -2,6 +2,7 @@
   "dependencies": {
     "day": "^0.0.2",
     "dayjs": "^1.11.10",
-    "js": "^0.1.0"
+    "js": "^0.1.0",
+    "react-router-dom": "^6.21.3"
   }
 }

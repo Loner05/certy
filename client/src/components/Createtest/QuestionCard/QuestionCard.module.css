@@ -1,0 +1,66 @@
+.MainCard{
+position: relative;
+background-color: white;
+border-radius: 8px;
+width: 350px;
+margin: 10px;
+
+
+height: 150px;
+
+}
+
+.question{
+font-weight: 600;
+
+}
+
+/* .questionEditButton{
+
+
+position: relative;
+top: 0;
+display: flex;
+justify-items: right;
+
+background-color: burlywood;
+justify-content: right;
+
+} */
+
+.questionEditButton{
+
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #7dcfb6;
+    color: white;
+    
+    width: 40px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    border-radius: 0px 8px 0px 8px;
+    
+}
+
+.cardContent{
+
+margin-top: 40px;
+
+}
+
+
+.orangeButton{
+ background-color: orange;
+ color: white;
+ font-weight: 600;
+ margin: 5px
+
+}
+
+.borderButton{
+border: 3px solid #7dcfb6;
+margin: 5px
+}

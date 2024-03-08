@@ -39,6 +39,7 @@ import Loader from "../Loading/Loading";
 const Coursetest = () =>{
  
     let valuer = 0
+    
       let loader = useSelector(state => state.loading2)
     const {testeid} = useParams()
     let finaltime =parseInt( window.localStorage.getItem('remain'))
@@ -59,7 +60,7 @@ const Coursetest = () =>{
 // console.log(`page getstate ${state.page}`)
 
     const[remainTime, setRemainTime] = useState("")
-     
+     const[percent, setPercent] = useState("")
   
 
     console.log(`soy testeid ${testeid}`)
@@ -75,33 +76,32 @@ const Coursetest = () =>{
     const stateRemainTestime = useSelector(state => state.remaintestime)
     const dispatch = useDispatch()
     useEffect(()=>{
-      dispatch(loading2(true))
+      dispatch(loading2(false))
       dispatch(getUserInfo())
       dispatch(getTEST())
         
        dispatch(testQuestions(testeid,reduxpage))
-        // if( !finaltime  || finaltime < Date.now()){
-        //  dispatch(remainTestTime(Date.now() + 1200000))
-        // }
-        //  setRemainTime(window.localStorage.getItem('remain'))
+
         console.log(`soy current test ${currentTest}`)
         console.log(userTests.tests)
-        // if(userTests.length){
-        //   console.log(`usertest legnth ${userTests.length}`)
-        // if( userTests[0].date + currentTest.testime  + 86400000 > Date.now() ){
-        //     setCautivatedTest24(true)
-        //     setTimeBlock(userTests[0].date+86400000)
-        // }}
 
 
+        if(dbquest){
+              // console.log(`entre a dbquest.question.total ${dbquest.question}`)
+              console.log()
+          let percentaje = dbquest.question && dbquest.question.total ? (100/dbquest.question.total+reduxpage/(dbquest.question.total-1) * 100 ): null
+         setPercent(percentaje)
+        }
 
         dispatch(userTestDB(testeid,"a1bdbea7-c77e-44a6-b5b8-f90309288df8"))
 
         // console.log(`soy dbquest ${dbquest.categories[0].id}`)
         if(dbquest.categories){
+          
           dispatch(questionAnswers(dbquest.categories[0].id))
        setRes(questionAns(dbquest.categories[0].id))
         .then(function(value){
+          
             questionAns(dbquest.categories[0].id).then(function(value){
 
                 setOptions(value)
@@ -216,8 +216,7 @@ console.log(`soy timeblock ${timeBlock}`)
 // if(userTests.tests){
 //   console.log(`usertests length ${!userTests.tests[0].date}`)
 
-// // }
-
+// // }if()
 
 
 const testRestriction =() =>{
@@ -236,7 +235,7 @@ const testRestriction =() =>{
   if(!userTests[0].date){
     dispatch(remainTestTime(Date.now() + parseInt(currentTest.testime)));
       dispatch(userCompleteRate(payload2))
-       dispatch(loading2(false))
+       dispatch(loading2(true))
 
  }
  if(userTests[0].date){
@@ -249,7 +248,7 @@ if(parseInt(userTests[0].date) + parseInt(currentTest.testime) > Date.now()){
 
 if(parseInt(userTests[0].date) + parseInt(currentTest.testime) < Date.now()){
   if(parseInt(userTests[0].date) + parseInt(currentTest.testime) + 120000 > Date.now()){
-    window.location.href = 'http://127.0.0.1:5173/testscore'
+    window.location.href = `/testscore/${testeid}`
      dispatch(loading2(false))
    
   }
@@ -289,7 +288,7 @@ dispatch(remainTestTime(Date.now() + parseInt(currentTest.testime)));
        <div>{testeid}testeid</div>
 {cautivedtest24 && cautivedtest24 ? <div>no estoy cautivo</div>: <div> estoy cautivo</div>}
 
-    <div> pregunta {page} de {5} redux page {reduxpage}</div>
+    <div> pregunta {reduxpage+1} de {dbquest.question && dbquest.question.total-1 }</div>
     {
 
     dbquest.question &&
@@ -313,7 +312,7 @@ dispatch(remainTestTime(Date.now() + parseInt(currentTest.testime)));
 
        dbquest.question &&   <div>
           {/* <Questioncomponent question={dbquest.categories[0].question}  questiontotal={dbquest.total} questionid={dbquest.categories[0].id} page={page}/> */}
-           <Questioncomponent question={dbquest.question.categories[0].question} answers={dbquest.answers} questiontotal={dbquest.question.total} questionid={dbquest.question.categories[0].id} page={page}/>
+           <Questioncomponent porcentaje={ percent} question={dbquest.question.categories[0].question} answers={dbquest.answers} questiontotal={dbquest.question.total} questionid={dbquest.question.categories[0].id} page={page}/>
           </div>
           }
 

@@ -8,15 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import style from './MainTestScore.module.css'
 import CertificacionWidget from "../../Certification/CertificationWidget/CertificationWidget";
 import { AiOutlineReload } from 'react-icons/ai';
-import { useParams } from "react-router-dom";
+import {useParams} from "react-router-dom"
+
 const Maintestscore = () =>{
 
   const stateUserInfo = useSelector(state => state.userInfo)
-   const params = useParams()
-   const {testid} = params
-   const {userid} = params
+  const {testeid} = useParams()
+
+  //  console.log(`soy testid ${testid}`)
     const [QuestionAndAnswers, setQuestionAndAnswers]= useState(null)
-let testeid= "9e9db805-16c8-472f-af72-54e54ea2d9c2"
+// let testeid= "9e9db805-16c8-472f-af72-54e54ea2d9c2"
 const [userAnswers,setuserAnswers] = useState([])
 const[Score, setScore] = useState({
 

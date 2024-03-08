@@ -18,6 +18,9 @@ import Maintestscore from './components/TestScore/MainTestScore'
 import { getUserInfo } from './redux/actions'
 import jwt_decode from 'jwt-decode'
 import { useAuth } from './components/useAuth/useAuth'
+import Noe from './components/Noe/Noe'
+
+
 
 
 
@@ -26,29 +29,30 @@ function App() {
 
    const { username, isAuthenticated } = useAuth();
 
-  
+   let {testid} = useParams()
   return (
     <div className="App">
    
-      <Routes>
+      {/* <Routes>
         <Route  path={"/"} element={<Main/>}/>
-        
+        <Route  path={"/noe"} element={<Noe/>}/>
         <Route  path={"/login"} element={<Login/>}/>
         
         <Route element={<ProtectedRoute/>}>
         <Route  path={"/user"} element={<Userhome/>}/>
-        <Route path="/test/:testeid" element={<Coursetest/>} />  
-        <Route exact path={"/testscore"} element={<Maintestscore/>}/>
+        <Route exact path="/testscore/:testeid" element={<Maintestscore/>}/>
+        <Route exact path="/test/:testid" element={<Coursetest/>} />  
         <Route exact path={"/profile"} element={<Profile/>}/>
-        <Route exact path={"/testscore"} element={<Maintestscore/>}/>
+       
+      
         </Route>
      
         
        
-        
+       
         <Route exact path={"/signup"} element={<Signup/>}/>
      
-        </Routes>
+        </Routes> */}
 
     
     </div>

@@ -1,0 +1,13 @@
+[1mdiff --git a/client/src/components/Createtest/Createtest.jsx b/client/src/components/Createtest/Createtest.jsx[m
+[1mindex f10c2ce..dfda379 100644[m
+[1m--- a/client/src/components/Createtest/Createtest.jsx[m
+[1m+++ b/client/src/components/Createtest/Createtest.jsx[m
+[36m@@ -46,7 +46,7 @@[m [mformdata.append('image', file)[m
+ axios.post('http://localhost:3001/files/images/single', formdata)[m
+ .then(res => (setTest({...test, image: res.data})[m
+ [m
+[31m-[m
+[32m+[m[32m/// soy un comment nuevo[m
+    [m
+     [m
+ [m

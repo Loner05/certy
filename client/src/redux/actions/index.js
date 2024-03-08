@@ -16,8 +16,7 @@ export const USER_TEST_DB = "USER_TEST_DB"
 export const USER_COMPLETE_RATE = "USER_COMPLETE_RATE"
 export const LOADING = "LOADING"
 export const LOADING2 ="LOADING2"
-
-
+export const CREATE_TEST_QUESTION_AND_ANSWERS =  "CREATE_TEST_QUESTION_AND_ANSWERS"  
 
 export const userLogin = (payload) => {
 
@@ -107,6 +106,7 @@ export const testQuestions = (testid,page) =>{
     headers: {
       Authorization: `Bearer ${window.localStorage.getItem('token')}`,
     },}).then((res)=>{
+      console.log(`estoy en action si resdataid ${res.data.id}`)
       questionData.question = res.data
        axios.get(`http://localhost:3001/test/questionanswer?QuestionId=${res.data.categories[0].id}`,data, config).then((res)=>{
         questionData.answers = res.data
@@ -491,4 +491,54 @@ export const loading2 = (payload) => (dispatch) =>{
   console.log(`soy payload de loading actions${payload}`)
   return dispatch({type: LOADING2, payload})
   
+  }
+
+
+
+  // crea preguntas y respuestas para un test
+
+
+  export const createTestQuestionsAndAnswers = (testid, answers,question) => async(dispatch) =>{
+   
+    console.log(answers)
+    const token = window.localStorage.getItem('token');
+    try{
+  axios.post(`http://localhost:3001/test/question`,
+  {
+    TestId: testid,
+    question:question,
+    
+  },
+  {
+    headers: {
+      Authorization:`bearer ${token}`,
+     'Content-Type': 'application/json'
+   }
+ }).then((res) =>{
+  console.log(`soy restatus ${res.status}`)
+    console.log(res.data)
+  axios.post(`http://localhost:3001/test/questionanswer`,
+  { 
+    QuestionId: res.data.id,
+    payload: answers
+    
+  },
+  {
+    headers: {
+      Authorization:`bearer ${token}`,
+     'Content-Type': 'application/json'
+   }
+ }).then((res)=>{console.log(`soy restatus2 ${res.status}`)})
+
+
+ })
+  
+  
+ }catch(error){
+ console.log(error)
+
+ }
+
+
+
   }

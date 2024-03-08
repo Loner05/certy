@@ -1,0 +1,10 @@
+.questionFlex{
+padding-top: 30px;
+width: 100%;
+display:flex;
+flex-wrap:wrap;
+align-content: center;
+background-color: aqua;
+align-items: center;
+
+}

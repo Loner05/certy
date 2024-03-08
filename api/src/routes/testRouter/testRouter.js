@@ -126,11 +126,11 @@ router.post('/question', async(req,res) =>{
     correct_answer
  })
 await questionCreator.setTest(TestId)
-res.status(200).send(`pregunta ${question} creada con exito`)
+res.status(200).json(questionCreator)
     }
 
 })
-
+ 
 router.get('/question',async(req,res)=>{
 const{testid, page,size=1} = req.query
 const authorization = req.get('authorization')
@@ -209,9 +209,10 @@ try{
 
   if(payload && QuestionId){
    for(let i =0; i< payload.length; i++){
+    console.log(payload[i].value)
     let postAnswer = await Answer.create({
       QuestionId,
-      answer: payload[i]
+      answer: payload[i].value
     })
    
 

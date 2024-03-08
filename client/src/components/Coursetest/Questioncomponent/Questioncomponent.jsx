@@ -8,8 +8,8 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 // import { Redirect } from 'react-router-dom';
 
-const Questioncomponent = ({question,questionid,questiontotal,answers}) =>{
-  
+const Questioncomponent = ({question,questionid,questiontotal,answers,porcentaje}) =>{
+
 // console.log(question)
 const dispatch = useDispatch()
 const[checked,setChecked] = useState([])
@@ -157,7 +157,7 @@ if(formattedAnswersArray.length > 0){
   dispatch(userAnswers(formattedAnswersArray))
 
 setTimeout(() => {
-  window.location.href = 'http://127.0.0.1:5173/testscore'
+  window.location.href = `/testscore/${testeid}`
 }, 1000);
  
 }
@@ -175,7 +175,7 @@ return(
 <div className={style.questionContainer}>
     
     <div className={style.questionBox}>
-    <div className={style.completionRate} style={{width:40}}></div>
+    <div className={style.completionRate} style={{width: `${porcentaje}%`}}></div>
      <div className={style.question}>
       <div className={style.questionTitle}>
      { 
